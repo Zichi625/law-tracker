@@ -91,6 +91,13 @@ function createItemCard(item, category) {
   employerNotes.textContent = `雇主要注意：${item.employerNotes}`;
   card.appendChild(employerNotes);
 
+  if (item.employeeNotes) {
+    const employeeNotes = document.createElement('p');
+    employeeNotes.className = 'item-employee-notes';
+    employeeNotes.textContent = `勞工可以怎麼做：${item.employeeNotes}`;
+    card.appendChild(employeeNotes);
+  }
+
   if (item.appliesTo) {
     const appliesTo = document.createElement('p');
     appliesTo.className = 'item-applies-to';
@@ -110,7 +117,7 @@ function createItemCard(item, category) {
   return card;
 }
 
-const CATEGORY_GROUP_ORDER = ['假別／請假', '薪資與給付', '健保與保費', '反霸凌與性平', '移工與求職者'];
+const CATEGORY_GROUP_ORDER = ['假別／請假', '薪資與給付', '健保與保費', '反霸凌與性平', '移工與求職者', '勞保與勞退', '工時與職災', '就業平等與解僱'];
 const FALLBACK_GROUP_NAME = '其他';
 
 function groupCategories(categories) {

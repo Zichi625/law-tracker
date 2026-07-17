@@ -11,7 +11,16 @@ window.LAW_TRACKER_DATA = {
     { id: "employer-nhi-premium", name: "雇主二代健保補充保費", group: "健保與保費" },
     { id: "annual-leave", name: "特別休假", group: "假別／請假" },
     { id: "severance-pay", name: "資遣費", group: "薪資與給付" },
-    { id: "overtime-pay", name: "加班費規定", group: "薪資與給付" }
+    { id: "overtime-pay", name: "加班費規定", group: "薪資與給付" },
+    { id: "labor-insurance-benefits", name: "勞保現金給付（生育／傷病／失能／死亡）", group: "勞保與勞退" },
+    { id: "labor-pension-contribution", name: "勞退新制月提繳率與提繳工資分級", group: "勞保與勞退" },
+    { id: "pension-eligibility", name: "退休金／老年給付請領資格", group: "勞保與勞退" },
+    { id: "working-hours", name: "正常工時、延長工時上限與輪班間隔", group: "工時與職災" },
+    { id: "occupational-injury-insurance", name: "職業災害保險給付與補償", group: "工時與職災" },
+    { id: "labor-contract-probation", name: "勞動契約與試用期規定", group: "工時與職災" },
+    { id: "employment-discrimination", name: "就業歧視禁止", group: "就業平等與解僱" },
+    { id: "mass-layoff", name: "大量解僱勞工保護", group: "就業平等與解僱" },
+    { id: "involuntary-resignation", name: "非自願離職認定與失業給付", group: "就業平等與解僱" }
   ],
   items: [
     {

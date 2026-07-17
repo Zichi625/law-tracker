@@ -194,6 +194,7 @@ header h1 {
 
 .item-summary,
 .item-employer-notes,
+.item-employee-notes,
 .item-applies-to,
 .item-penalty {
   font-size: 14px;
@@ -203,6 +204,10 @@ header h1 {
 
 .item-employer-notes {
   color: #92400e;
+}
+
+.item-employee-notes {
+  color: #1d4ed8;
 }
 
 .item-sources {
