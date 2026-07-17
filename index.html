@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>勞動法規追蹤</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="overview">
+  <main class="container">
+    <header>
+      <h1>勞動法規追蹤</h1>
+      <p id="last-refreshed" class="last-refreshed"></p>
+    </header>
+
+    <nav id="category-nav" class="category-nav"></nav>
+
+    <input id="search-input" class="search-input" type="search" placeholder="搜尋關鍵字（例如：罰則、資遣費、加班費）">
+
+    <section class="section latest-section">
+      <h2 class="section-title">🆕 最新更新</h2>
+      <div id="latest-body"></div>
+      <p id="latest-empty-message" class="empty-message" hidden>尚未有資料，請先執行刷新</p>
+    </section>
+  </main>
+
+  <script src="law-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
