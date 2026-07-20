@@ -10,7 +10,7 @@
   <main class="container">
     <header>
       <div class="hero-banner">
-        <svg viewBox="0 0 400 140" class="hero-banner-svg" role="img" aria-label="權益保障插畫">
+        <svg viewBox="0 0 400 140" class="hero-banner-svg" role="img" aria-label="雇主與勞工插畫">
           <defs>
             <linearGradient id="heroGradient" x1="0" y1="0" x2="400" y2="140" gradientUnits="userSpaceOnUse">
               <stop offset="0" stop-color="#fff7ed"/>
@@ -18,8 +18,26 @@
             </linearGradient>
           </defs>
           <rect x="0" y="0" width="400" height="140" fill="url(#heroGradient)"/>
-          <path d="M200 25 L245 42 V88 C245 116 222 132 200 140 C178 132 155 116 155 88 V42 Z" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
-          <path d="M180 86 L195 101 L222 68" stroke="#2563eb" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <ellipse cx="145" cy="128" rx="34" ry="6" fill="#e5e0d8"/>
+          <ellipse cx="255" cy="128" rx="34" ry="6" fill="#dbe3ee"/>
+
+          <!-- 雇主 -->
+          <path d="M118 126 C118 96 126 82 145 82 C164 82 172 96 172 126 Z" fill="#ea580c"/>
+          <rect x="133" y="92" width="24" height="14" rx="4" fill="#c2410c"/>
+          <circle cx="145" cy="66" r="18" fill="#ffd8b1"/>
+          <path d="M127 60 C127 48 134 40 145 40 C156 40 163 48 163 60 L163 54 C155 56 135 56 127 54 Z" fill="#3f3f46"/>
+
+          <!-- 勞工 -->
+          <path d="M228 126 C228 96 236 82 255 82 C274 82 282 96 282 126 Z" fill="#2563eb"/>
+          <rect x="243" y="90" width="24" height="10" rx="4" fill="#1d4ed8"/>
+          <circle cx="255" cy="66" r="18" fill="#f4c9a0"/>
+          <path d="M238 62 C238 50 245 40 255 40 C265 40 272 50 272 62 C266 58 244 58 238 62 Z" fill="#57534e"/>
+
+          <!-- 中間握手 -->
+          <path d="M172 110 L192 104 L200 108 L208 104 L228 110" stroke="#ffffff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="200" cy="106" r="9" fill="#ffffff"/>
+          <path d="M195 106 L199 110 L206 101" stroke="#16a34a" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
       <h1>多角人才勞動法規追蹤</h1>
@@ -28,17 +46,18 @@
 
     <nav id="category-nav" class="category-nav"></nav>
 
-    <input id="search-input" class="search-input" type="search" placeholder="搜尋關鍵字（例如：罰則、資遣費、加班費）">
+    <div class="content-column">
+      <input id="search-input" class="search-input" type="search" placeholder="搜尋關鍵字（例如：罰則、資遣費、加班費）">
 
-    <section class="section latest-section">
-      <h2 class="section-title">🆕 最新更新</h2>
-      <div id="latest-body"></div>
-      <p id="latest-empty-message" class="empty-message" hidden>尚未有資料，請先執行刷新</p>
-      <div id="latest-pagination" class="pagination"></div>
-    </section>
+      <section class="section latest-section">
+        <h2 class="section-title">🆕 最新更新</h2>
+        <div id="latest-body"></div>
+        <p id="latest-empty-message" class="empty-message" hidden>尚未有資料，請先執行刷新</p>
+        <div id="latest-pagination" class="pagination"></div>
+      </section>
+    </div>
   </main>
 
-  <script src="law-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

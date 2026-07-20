@@ -1,9 +1,17 @@
-function getLawData() {
-  const data = window.LAW_TRACKER_DATA;
-  if (!data || !Array.isArray(data.categories) || !Array.isArray(data.items)) {
+async function loadLawData() {
+  try {
+    const response = await fetch('data/laws.json');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data/laws.json: ${response.status}`);
+    }
+    const data = await response.json();
+    if (!data || !Array.isArray(data.categories) || !Array.isArray(data.items)) {
+      return { lastRefreshedAt: null, categories: [], items: [] };
+    }
+    return data;
+  } catch (err) {
     return { lastRefreshedAt: null, categories: [], items: [] };
   }
-  return data;
 }
 
 function getCategoryById(categories, categoryId) {
@@ -35,10 +43,10 @@ function createSourceLinks(sources) {
 }
 
 const STATUS_LABELS = {
-  effective: '已生效',
-  announced: '已公告未生效',
-  draft: '草案研議中',
-  expired: '已失效／已廢止'
+  effective: '● 已生效',
+  announced: '◷ 已公告未生效',
+  draft: '△ 草案研議中',
+  expired: '✕ 已失效／已廢止'
 };
 
 function createStatusBadge(status) {
@@ -80,6 +88,29 @@ function createItemCard(item, category) {
   meta.className = 'item-meta';
   meta.textContent = category ? `${category.name}｜${item.date}` : item.date;
   card.appendChild(meta);
+
+  if (item.announcedAt || item.effectiveAt) {
+    const dateDetail = document.createElement('div');
+    dateDetail.className = 'item-date-detail';
+
+    if (item.announcedAt) {
+      const announced = document.createElement('p');
+      announced.textContent = `公布：${item.announcedAt}`;
+      dateDetail.appendChild(announced);
+    }
+
+    if (item.effectiveAt) {
+      const effective = document.createElement('p');
+      effective.textContent = `施行：${item.effectiveAt}`;
+      dateDetail.appendChild(effective);
+    }
+
+    const verified = document.createElement('p');
+    verified.textContent = `本站查核：${item.addedAt}`;
+    dateDetail.appendChild(verified);
+
+    card.appendChild(dateDetail);
+  }
 
   const summary = document.createElement('p');
   summary.className = 'item-summary';
@@ -218,8 +249,7 @@ function renderPaginationControls(container, totalItems, currentPage, onPageChan
   }
 }
 
-function renderOverviewPage() {
-  const data = getLawData();
+function renderOverviewPage(data) {
   renderNavMenu(data.categories, null);
 
   document.getElementById('last-refreshed').textContent = formatLastRefreshed(data.lastRefreshedAt);
@@ -276,8 +306,7 @@ function renderOverviewPage() {
   }
 }
 
-function renderCategoryPage() {
-  const data = getLawData();
+function renderCategoryPage(data) {
   const params = new URLSearchParams(window.location.search);
   const categoryId = params.get('cat');
   const category = getCategoryById(data.categories, categoryId);
@@ -319,12 +348,13 @@ function renderCategoryPage() {
   }
 }
 
-function init() {
+async function init() {
   const page = document.body.dataset.page;
+  const data = await loadLawData();
   if (page === 'overview') {
-    renderOverviewPage();
+    renderOverviewPage(data);
   } else if (page === 'category') {
-    renderCategoryPage();
+    renderCategoryPage(data);
   }
 }
 

@@ -204,6 +204,16 @@ header h1 {
   margin: 0 0 8px;
 }
 
+.item-date-detail {
+  font-size: 12px;
+  color: #6e6e73;
+  margin: 0 0 8px;
+}
+
+.item-date-detail p {
+  margin: 0;
+}
+
 .item-summary,
 .item-applies-to,
 .item-penalty {
@@ -288,4 +298,35 @@ header h1 {
 
 .page-button:hover:not(.active) {
   background: #e5e5e7;
+}
+
+@media (min-width: 900px) {
+  .container {
+    max-width: 1120px;
+  }
+
+  main.container {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-areas:
+      "header header"
+      "nav content";
+    column-gap: 24px;
+    align-items: start;
+  }
+
+  main.container > header {
+    grid-area: header;
+  }
+
+  main.container > #category-nav {
+    grid-area: nav;
+    position: sticky;
+    top: 24px;
+    margin-bottom: 0;
+  }
+
+  .content-column {
+    grid-area: content;
+  }
 }
