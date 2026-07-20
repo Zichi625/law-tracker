@@ -121,7 +121,7 @@ function createItemCard(item, category) {
   employerBlock.className = 'notes-block notes-block--employer';
   const employerTag = document.createElement('span');
   employerTag.className = 'notes-tag';
-  employerTag.textContent = '雇主';
+  employerTag.textContent = '雇主注意';
   const employerText = document.createElement('p');
   employerText.className = 'notes-text';
   employerText.textContent = item.employerNotes;
@@ -134,7 +134,7 @@ function createItemCard(item, category) {
     employeeBlock.className = 'notes-block notes-block--employee';
     const employeeTag = document.createElement('span');
     employeeTag.className = 'notes-tag';
-    employeeTag.textContent = '勞工';
+    employeeTag.textContent = '勞工注意';
     const employeeText = document.createElement('p');
     employeeText.className = 'notes-text';
     employeeText.textContent = item.employeeNotes;
