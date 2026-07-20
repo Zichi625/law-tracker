@@ -86,16 +86,30 @@ function createItemCard(item, category) {
   summary.textContent = item.summary;
   card.appendChild(summary);
 
-  const employerNotes = document.createElement('p');
-  employerNotes.className = 'item-employer-notes';
-  employerNotes.textContent = `雇主要注意：${item.employerNotes}`;
-  card.appendChild(employerNotes);
+  const employerBlock = document.createElement('div');
+  employerBlock.className = 'notes-block notes-block--employer';
+  const employerTag = document.createElement('span');
+  employerTag.className = 'notes-tag';
+  employerTag.textContent = '雇主';
+  const employerText = document.createElement('p');
+  employerText.className = 'notes-text';
+  employerText.textContent = item.employerNotes;
+  employerBlock.appendChild(employerTag);
+  employerBlock.appendChild(employerText);
+  card.appendChild(employerBlock);
 
   if (item.employeeNotes) {
-    const employeeNotes = document.createElement('p');
-    employeeNotes.className = 'item-employee-notes';
-    employeeNotes.textContent = `勞工可以怎麼做：${item.employeeNotes}`;
-    card.appendChild(employeeNotes);
+    const employeeBlock = document.createElement('div');
+    employeeBlock.className = 'notes-block notes-block--employee';
+    const employeeTag = document.createElement('span');
+    employeeTag.className = 'notes-tag';
+    employeeTag.textContent = '勞工';
+    const employeeText = document.createElement('p');
+    employeeText.className = 'notes-text';
+    employeeText.textContent = item.employeeNotes;
+    employeeBlock.appendChild(employeeTag);
+    employeeBlock.appendChild(employeeText);
+    card.appendChild(employeeBlock);
   }
 
   if (item.appliesTo) {
@@ -184,6 +198,26 @@ function itemMatchesKeyword(item, category, keyword) {
   return haystack.includes(keyword.toLowerCase());
 }
 
+const LATEST_PAGE_SIZE = 6;
+
+function renderPaginationControls(container, totalItems, currentPage, onPageChange) {
+  container.innerHTML = '';
+  const totalPages = Math.ceil(totalItems / LATEST_PAGE_SIZE);
+  if (totalPages <= 1) return;
+
+  for (let page = 1; page <= totalPages; page++) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'page-button';
+    if (page === currentPage) {
+      button.classList.add('active');
+    }
+    button.textContent = String(page);
+    button.addEventListener('click', () => onPageChange(page));
+    container.appendChild(button);
+  }
+}
+
 function renderOverviewPage() {
   const data = getLawData();
   renderNavMenu(data.categories, null);
@@ -193,17 +227,34 @@ function renderOverviewPage() {
   const sortedItems = sortItemsByDateDesc(data.items);
   const container = document.getElementById('latest-body');
   const emptyMessage = document.getElementById('latest-empty-message');
+  const paginationContainer = document.getElementById('latest-pagination');
   const searchInput = document.getElementById('search-input');
+  let currentPage = 1;
 
   function renderList(keyword) {
     container.innerHTML = '';
     const filtered = sortedItems.filter(item =>
       itemMatchesKeyword(item, getCategoryById(data.categories, item.categoryId), keyword)
     );
-    filtered.forEach(item => {
+
+    const totalPages = Math.max(1, Math.ceil(filtered.length / LATEST_PAGE_SIZE));
+    if (currentPage > totalPages) {
+      currentPage = totalPages;
+    }
+    const pageItems = filtered.slice((currentPage - 1) * LATEST_PAGE_SIZE, currentPage * LATEST_PAGE_SIZE);
+
+    pageItems.forEach(item => {
       const category = getCategoryById(data.categories, item.categoryId);
       container.appendChild(createItemCard(item, category));
     });
+
+    if (paginationContainer) {
+      renderPaginationControls(paginationContainer, filtered.length, currentPage, page => {
+        currentPage = page;
+        renderList(keyword);
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
 
     if (sortedItems.length === 0) {
       emptyMessage.textContent = '尚未有資料，請先執行刷新';
@@ -218,7 +269,10 @@ function renderOverviewPage() {
 
   renderList('');
   if (searchInput) {
-    searchInput.addEventListener('input', () => renderList(searchInput.value.trim()));
+    searchInput.addEventListener('input', () => {
+      currentPage = 1;
+      renderList(searchInput.value.trim());
+    });
   }
 }
 

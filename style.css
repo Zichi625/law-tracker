@@ -19,6 +19,18 @@ body {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
+.hero-banner {
+  margin: -24px -24px 20px;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+.hero-banner-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 header h1 {
   font-size: 22px;
   margin: 0 0 4px;
@@ -193,8 +205,6 @@ header h1 {
 }
 
 .item-summary,
-.item-employer-notes,
-.item-employee-notes,
 .item-applies-to,
 .item-penalty {
   font-size: 14px;
@@ -202,12 +212,43 @@ header h1 {
   margin: 0 0 8px;
 }
 
-.item-employer-notes {
-  color: #92400e;
+.notes-block {
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 0 0 8px;
 }
 
-.item-employee-notes {
-  color: #1d4ed8;
+.notes-block--employer {
+  background: #fdf6ee;
+}
+
+.notes-block--employee {
+  background: #eef4fd;
+}
+
+.notes-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.notes-block--employer .notes-tag {
+  background: #ea580c;
+}
+
+.notes-block--employee .notes-tag {
+  background: #2563eb;
+}
+
+.notes-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: #3f3f46;
 }
 
 .item-sources {
@@ -219,4 +260,32 @@ header h1 {
 .item-sources a {
   color: #3b82f6;
   margin-right: 4px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.page-button {
+  min-width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: #f0f0f2;
+  color: #1d1d1f;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.page-button.active {
+  background: #1d1d1f;
+  color: #ffffff;
+}
+
+.page-button:hover:not(.active) {
+  background: #e5e5e7;
 }

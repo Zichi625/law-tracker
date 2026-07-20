@@ -9,6 +9,19 @@
 <body data-page="overview">
   <main class="container">
     <header>
+      <div class="hero-banner">
+        <svg viewBox="0 0 400 140" class="hero-banner-svg" role="img" aria-label="權益保障插畫">
+          <defs>
+            <linearGradient id="heroGradient" x1="0" y1="0" x2="400" y2="140" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#fff7ed"/>
+              <stop offset="1" stop-color="#eff6ff"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="400" height="140" fill="url(#heroGradient)"/>
+          <path d="M200 25 L245 42 V88 C245 116 222 132 200 140 C178 132 155 116 155 88 V42 Z" fill="#ffffff" stroke="#d1d5db" stroke-width="2"/>
+          <path d="M180 86 L195 101 L222 68" stroke="#2563eb" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
       <h1>多角人才勞動法規追蹤</h1>
       <p id="last-refreshed" class="last-refreshed"></p>
     </header>
@@ -21,6 +34,7 @@
       <h2 class="section-title">🆕 最新更新</h2>
       <div id="latest-body"></div>
       <p id="latest-empty-message" class="empty-message" hidden>尚未有資料，請先執行刷新</p>
+      <div id="latest-pagination" class="pagination"></div>
     </section>
   </main>
 
