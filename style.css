@@ -366,6 +366,21 @@ header h1 {
   margin-bottom: 2px;
 }
 
+.qa-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
 .qa-question {
   font-size: 16px;
   font-weight: 700;

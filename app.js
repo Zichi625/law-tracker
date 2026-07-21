@@ -50,7 +50,12 @@ function createQABlock(qa) {
 
   const questionLabel = document.createElement('div');
   questionLabel.className = 'qa-label';
-  questionLabel.textContent = '❓ 問題';
+  const questionIcon = document.createElement('span');
+  questionIcon.className = 'qa-icon';
+  questionIcon.textContent = '?';
+  questionIcon.setAttribute('aria-hidden', 'true');
+  questionLabel.appendChild(questionIcon);
+  questionLabel.appendChild(document.createTextNode('問題'));
   block.appendChild(questionLabel);
 
   const question = document.createElement('p');
