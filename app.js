@@ -22,10 +22,12 @@ function sortItemsByDateDesc(items) {
   return [...items].sort((a, b) => b.date.localeCompare(a.date));
 }
 
-function createSourceLinks(sources) {
+function createSourceLinks(sources, prefixText = '參考來源：') {
   const wrapper = document.createElement('p');
   wrapper.className = 'item-sources';
-  wrapper.appendChild(document.createTextNode('參考來源：'));
+  if (prefixText) {
+    wrapper.appendChild(document.createTextNode(prefixText));
+  }
 
   sources.forEach((source, index) => {
     if (index > 0) {
@@ -40,6 +42,92 @@ function createSourceLinks(sources) {
   });
 
   return wrapper;
+}
+
+function createQABlock(qa) {
+  const block = document.createElement('div');
+  block.className = 'qa-block';
+
+  const questionLabel = document.createElement('div');
+  questionLabel.className = 'qa-label';
+  questionLabel.textContent = '❓ 問題';
+  block.appendChild(questionLabel);
+
+  const question = document.createElement('p');
+  question.className = 'qa-question';
+  question.textContent = qa.q;
+  block.appendChild(question);
+
+  const answerLabel = document.createElement('div');
+  answerLabel.className = 'qa-label';
+  answerLabel.textContent = '✅ 答案';
+  block.appendChild(answerLabel);
+
+  const answer = document.createElement('p');
+  answer.className = 'qa-answer';
+  answer.textContent = qa.a;
+  block.appendChild(answer);
+
+  const lawBlock = document.createElement('div');
+  lawBlock.className = 'qa-law-block';
+  const lawLabel = document.createElement('div');
+  lawLabel.className = 'qa-label';
+  lawLabel.textContent = '📖 相關法規';
+  lawBlock.appendChild(lawLabel);
+  const law = document.createElement('p');
+  law.className = 'qa-law-text';
+  law.textContent = qa.law;
+  lawBlock.appendChild(law);
+  block.appendChild(lawBlock);
+
+  const sourceLabel = document.createElement('div');
+  sourceLabel.className = 'qa-label';
+  sourceLabel.textContent = '🔗 官方來源';
+  block.appendChild(sourceLabel);
+  block.appendChild(createSourceLinks(qa.sources, ''));
+
+  if (qa.courtOpinion) {
+    const courtBlock = document.createElement('div');
+    courtBlock.className = 'qa-court-block';
+    const courtLabel = document.createElement('div');
+    courtLabel.className = 'qa-label';
+    courtLabel.textContent = '⚖️ 法院見解';
+    courtBlock.appendChild(courtLabel);
+    const court = document.createElement('p');
+    court.className = 'qa-court-text';
+    court.textContent = qa.courtOpinion;
+    courtBlock.appendChild(court);
+    block.appendChild(courtBlock);
+  }
+
+  return block;
+}
+
+function renderScenarioPage(data) {
+  const params = new URLSearchParams(window.location.search);
+  const scenarioId = params.get('id');
+  const scenario = (data.scenarios || []).find(s => s.id === scenarioId);
+
+  renderNavMenu(data.categories, null);
+
+  if (!scenario) {
+    document.getElementById('scenario-title').textContent = '找不到這個情境';
+    document.getElementById('scenario-notfound').hidden = false;
+    return;
+  }
+
+  document.getElementById('scenario-title').textContent = scenario.question;
+
+  const container = document.getElementById('scenario-body');
+  container.innerHTML = '';
+  scenario.qa.forEach(qa => container.appendChild(createQABlock(qa)));
+
+  const category = getCategoryById(data.categories, scenario.categoryId);
+  const link = document.createElement('a');
+  link.className = 'scenario-full-list-link';
+  link.href = `category.html?cat=${encodeURIComponent(scenario.categoryId)}`;
+  link.textContent = category ? `查看『${category.name}』完整消息列表 →` : '查看完整消息列表 →';
+  container.appendChild(link);
 }
 
 const STATUS_LABELS = {
@@ -249,8 +337,23 @@ function renderPaginationControls(container, totalItems, currentPage, onPageChan
   }
 }
 
+function renderScenarioNav(scenarios) {
+  const container = document.getElementById('scenario-nav');
+  if (!container) return;
+  container.innerHTML = '';
+
+  (scenarios || []).forEach(scenario => {
+    const link = document.createElement('a');
+    link.className = 'scenario-link';
+    link.href = `scenario.html?id=${encodeURIComponent(scenario.id)}`;
+    link.textContent = scenario.question;
+    container.appendChild(link);
+  });
+}
+
 function renderOverviewPage(data) {
   renderNavMenu(data.categories, null);
+  renderScenarioNav(data.scenarios);
 
   document.getElementById('last-refreshed').textContent = formatLastRefreshed(data.lastRefreshedAt);
 
@@ -355,6 +458,8 @@ async function init() {
     renderOverviewPage(data);
   } else if (page === 'category') {
     renderCategoryPage(data);
+  } else if (page === 'scenario') {
+    renderScenarioPage(data);
   }
 }
 

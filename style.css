@@ -132,6 +132,34 @@ header h1 {
   margin: 0 0 16px;
 }
 
+.scenario-nav-section {
+  margin-bottom: 20px;
+}
+
+.scenario-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.scenario-link {
+  display: block;
+  background: #ffffff;
+  border: 1px solid #e5e5e7;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d1d1f;
+  text-decoration: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.scenario-link:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
 .status-message {
   background: #fff4e5;
   color: #92400e;
@@ -317,6 +345,79 @@ header h1 {
   background: #e5e5e7;
 }
 
+.qa-block {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e7;
+}
+
+.qa-block:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.qa-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6e6e73;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.qa-question {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.qa-answer {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+
+.qa-law-block {
+  background: #fdf6ee;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+}
+
+.qa-law-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: #3f3f46;
+}
+
+.qa-court-block {
+  background: #f3e8ff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: 12px;
+}
+
+.qa-court-text {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+  color: #3f3f46;
+}
+
+.scenario-full-list-link {
+  display: inline-block;
+  margin-top: 4px;
+  color: #3b82f6;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.scenario-full-list-link:hover {
+  text-decoration: underline;
+}
+
 @media (min-width: 900px) {
   .container {
     max-width: 1120px;
@@ -327,6 +428,7 @@ header h1 {
     grid-template-columns: 220px 1fr;
     grid-template-areas:
       "header header"
+      "scenarios scenarios"
       "nav content";
     column-gap: 24px;
     align-items: start;
@@ -334,6 +436,10 @@ header h1 {
 
   main.container > header {
     grid-area: header;
+  }
+
+  .scenario-nav-section {
+    grid-area: scenarios;
   }
 
   main.container > #category-nav {
