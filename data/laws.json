@@ -1,5 +1,5 @@
 {
-  "lastRefreshedAt": "2026-07-20",
+  "lastRefreshedAt": "2026-07-21",
   "categories": [
     {
       "id": "workplace-bullying",
@@ -1223,7 +1223,7 @@
         }
       ],
       "appliesTo": "純舊制勞工（94年7月1日前已受僱、選擇繼續適用勞基法舊制退休金、目前仍服務於同一事業單位者，約11.5萬人）",
-      "isNew": true,
+      "isNew": false,
       "addedAt": "2026-07-20"
     },
     {
@@ -1251,7 +1251,7 @@
       ],
       "appliesTo": "適用大量解僱勞工保護法第5條協商程序",
       "penalty": "目前查無新竹縣政府對普利司通開罰的報導；縣府立場是「已完成法定通報即屬合法」，但勞團對此持不同意見，屬於法律見解爭議，非確定裁罰結果",
-      "isNew": true,
+      "isNew": false,
       "addedAt": "2026-07-20"
     }
   ]
