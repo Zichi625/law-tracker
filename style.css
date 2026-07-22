@@ -373,12 +373,31 @@ header h1 {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: #2563eb;
   color: #ffffff;
   font-size: 11px;
   font-weight: 700;
   margin-right: 4px;
   vertical-align: middle;
+}
+
+.qa-icon--question {
+  background: #2563eb;
+}
+
+.qa-icon--answer {
+  background: #16a34a;
+}
+
+.qa-icon--law {
+  background: #ea580c;
+}
+
+.qa-icon--source {
+  background: #6e6e73;
+}
+
+.qa-icon--court {
+  background: #7e22ce;
 }
 
 .qa-question {

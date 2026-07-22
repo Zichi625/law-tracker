@@ -44,29 +44,30 @@ function createSourceLinks(sources, prefixText = '參考來源：') {
   return wrapper;
 }
 
+function createQALabel(iconType, iconChar, text) {
+  const label = document.createElement('div');
+  label.className = 'qa-label';
+  const iconEl = document.createElement('span');
+  iconEl.className = `qa-icon qa-icon--${iconType}`;
+  iconEl.textContent = iconChar;
+  iconEl.setAttribute('aria-hidden', 'true');
+  label.appendChild(iconEl);
+  label.appendChild(document.createTextNode(text));
+  return label;
+}
+
 function createQABlock(qa) {
   const block = document.createElement('div');
   block.className = 'qa-block';
 
-  const questionLabel = document.createElement('div');
-  questionLabel.className = 'qa-label';
-  const questionIcon = document.createElement('span');
-  questionIcon.className = 'qa-icon';
-  questionIcon.textContent = '?';
-  questionIcon.setAttribute('aria-hidden', 'true');
-  questionLabel.appendChild(questionIcon);
-  questionLabel.appendChild(document.createTextNode('問題'));
-  block.appendChild(questionLabel);
+  block.appendChild(createQALabel('question', '?', '問題'));
 
   const question = document.createElement('p');
   question.className = 'qa-question';
   question.textContent = qa.q;
   block.appendChild(question);
 
-  const answerLabel = document.createElement('div');
-  answerLabel.className = 'qa-label';
-  answerLabel.textContent = '✅ 答案';
-  block.appendChild(answerLabel);
+  block.appendChild(createQALabel('answer', '✓', '答案'));
 
   const answer = document.createElement('p');
   answer.className = 'qa-answer';
@@ -75,29 +76,20 @@ function createQABlock(qa) {
 
   const lawBlock = document.createElement('div');
   lawBlock.className = 'qa-law-block';
-  const lawLabel = document.createElement('div');
-  lawLabel.className = 'qa-label';
-  lawLabel.textContent = '📖 相關法規';
-  lawBlock.appendChild(lawLabel);
+  lawBlock.appendChild(createQALabel('law', '§', '相關法規'));
   const law = document.createElement('p');
   law.className = 'qa-law-text';
   law.textContent = qa.law;
   lawBlock.appendChild(law);
   block.appendChild(lawBlock);
 
-  const sourceLabel = document.createElement('div');
-  sourceLabel.className = 'qa-label';
-  sourceLabel.textContent = '🔗 官方來源';
-  block.appendChild(sourceLabel);
+  block.appendChild(createQALabel('source', '↗', '官方來源'));
   block.appendChild(createSourceLinks(qa.sources, ''));
 
   if (qa.courtOpinion) {
     const courtBlock = document.createElement('div');
     courtBlock.className = 'qa-court-block';
-    const courtLabel = document.createElement('div');
-    courtLabel.className = 'qa-label';
-    courtLabel.textContent = '⚖️ 法院見解';
-    courtBlock.appendChild(courtLabel);
+    courtBlock.appendChild(createQALabel('court', '⚖', '法院見解'));
     const court = document.createElement('p');
     court.className = 'qa-court-text';
     court.textContent = qa.courtOpinion;
