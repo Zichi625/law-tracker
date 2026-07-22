@@ -160,6 +160,35 @@ header h1 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
+.scenario-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.scenario-search-result {
+  display: block;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.scenario-search-result:hover {
+  background: #dbeafe;
+}
+
+.scenario-search-empty {
+  font-size: 13px;
+  color: #6e6e73;
+  padding: 8px 2px;
+  margin: 0 0 12px;
+}
+
 .status-message {
   background: #fff4e5;
   color: #92400e;

@@ -348,9 +348,103 @@ function renderScenarioNav(scenarios) {
   });
 }
 
+const SCENARIO_SEARCH_THRESHOLD = 0.34;
+const SCENARIO_SEARCH_MAX_RESULTS = 3;
+
+function toBigrams(text) {
+  const clean = (text || '').replace(/\s+/g, '');
+  const grams = new Set();
+  for (let i = 0; i < clean.length - 1; i++) {
+    grams.add(clean.slice(i, i + 2));
+  }
+  return grams;
+}
+
+function bigramOverlapScore(gramsA, gramsB) {
+  if (gramsA.size === 0 || gramsB.size === 0) return 0;
+  let overlap = 0;
+  gramsA.forEach(gram => {
+    if (gramsB.has(gram)) overlap++;
+  });
+  return overlap / Math.min(gramsA.size, gramsB.size);
+}
+
+function buildScenarioSearchIndex(data) {
+  const index = [];
+  (data.scenarios || []).forEach(scenario => {
+    index.push({
+      type: 'scenario',
+      id: scenario.id,
+      label: scenario.question,
+      grams: toBigrams(scenario.question)
+    });
+  });
+  (data.categories || []).forEach(category => {
+    index.push({
+      type: 'category',
+      id: category.id,
+      label: category.name,
+      grams: toBigrams(category.name)
+    });
+  });
+  return index;
+}
+
+function findClosestMatches(query, index, maxResults) {
+  const queryGrams = toBigrams(query);
+  return index
+    .map(entry => ({ entry, score: bigramOverlapScore(queryGrams, entry.grams) }))
+    .filter(scored => scored.score >= SCENARIO_SEARCH_THRESHOLD)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, maxResults)
+    .map(scored => scored.entry);
+}
+
+function renderScenarioSearchResults(container, matches) {
+  container.innerHTML = '';
+
+  if (matches.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'scenario-search-empty';
+    empty.textContent = '沒有直接對應的情境，請到下方瀏覽分類，或用上方的「搜尋關鍵字」功能查詢。';
+    container.appendChild(empty);
+    return;
+  }
+
+  matches.forEach(entry => {
+    const link = document.createElement('a');
+    link.className = 'scenario-search-result';
+    if (entry.type === 'scenario') {
+      link.href = `scenario.html?id=${encodeURIComponent(entry.id)}`;
+      link.textContent = `可能是：${entry.label}`;
+    } else {
+      link.href = `category.html?cat=${encodeURIComponent(entry.id)}`;
+      link.textContent = `可能是：${entry.label}（分類）`;
+    }
+    container.appendChild(link);
+  });
+}
+
 function renderOverviewPage(data) {
   renderNavMenu(data.categories, null);
   renderScenarioNav(data.scenarios);
+
+  const scenarioSearchInput = document.getElementById('scenario-search-input');
+  const scenarioSearchResults = document.getElementById('scenario-search-results');
+  if (scenarioSearchInput && scenarioSearchResults) {
+    const scenarioSearchIndex = buildScenarioSearchIndex(data);
+    scenarioSearchInput.addEventListener('input', () => {
+      const query = scenarioSearchInput.value.trim();
+      if (!query) {
+        scenarioSearchResults.innerHTML = '';
+        scenarioSearchResults.hidden = true;
+        return;
+      }
+      scenarioSearchResults.hidden = false;
+      const matches = findClosestMatches(query, scenarioSearchIndex, SCENARIO_SEARCH_MAX_RESULTS);
+      renderScenarioSearchResults(scenarioSearchResults, matches);
+    });
+  }
 
   document.getElementById('last-refreshed').textContent = formatLastRefreshed(data.lastRefreshedAt);
 
