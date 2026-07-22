@@ -348,11 +348,36 @@ function renderScenarioNav(scenarios) {
   });
 }
 
-const SCENARIO_SEARCH_THRESHOLD = 0.34;
+const SCENARIO_SEARCH_THRESHOLD = 0.28;
 const SCENARIO_SEARCH_MAX_RESULTS = 3;
 
+// 口語用字 → 資料庫裡實際使用的用字，比對前先統一，讓不同講法也能配對到同一個情境
+const SEARCH_SYNONYMS = [
+  ['老闆', '雇主'],
+  ['頭家', '雇主'],
+  ['開除', '資遣'],
+  ['裁員', '資遣'],
+  ['辭退', '資遣'],
+  ['炒魷魚', '資遣'],
+  ['外包', '承攬'],
+  ['接案', '承攬'],
+  ['發包', '承攬'],
+  ['line', '通訊軟體'],
+  ['whatsapp', '通訊軟體'],
+  ['傳訊息', '通訊軟體']
+];
+
+function normalizeForMatching(text) {
+  // 先轉小寫，避免英文字大小寫不同（例如 LINE／line）被當成不同字比對不到
+  let normalized = (text || '').toLowerCase();
+  SEARCH_SYNONYMS.forEach(([from, to]) => {
+    normalized = normalized.split(from).join(to);
+  });
+  return normalized;
+}
+
 function toBigrams(text) {
-  const clean = (text || '').replace(/\s+/g, '');
+  const clean = normalizeForMatching(text).replace(/\s+/g, '');
   const grams = new Set();
   for (let i = 0; i < clean.length - 1; i++) {
     grams.add(clean.slice(i, i + 2));
@@ -372,11 +397,16 @@ function bigramOverlapScore(gramsA, gramsB) {
 function buildScenarioSearchIndex(data) {
   const index = [];
   (data.scenarios || []).forEach(scenario => {
+    // 除了情境標題本身，也把底下每則Q&A的實際提問文字一起收進比對範圍，
+    // 因為使用者打字通常比較接近這些口語化的提問，而不是標題那句精簡的話。
+    const searchableText = [scenario.question, ...(scenario.qa || []).map(qa => qa.q)]
+      .filter(Boolean)
+      .join('　');
     index.push({
       type: 'scenario',
       id: scenario.id,
       label: scenario.question,
-      grams: toBigrams(scenario.question)
+      grams: toBigrams(searchableText)
     });
   });
   (data.categories || []).forEach(category => {
