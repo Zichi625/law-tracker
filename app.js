@@ -364,8 +364,42 @@ const SEARCH_SYNONYMS = [
   ['發包', '承攬'],
   ['line', '通訊軟體'],
   ['whatsapp', '通訊軟體'],
-  ['傳訊息', '通訊軟體']
+  ['傳訊息', '通訊軟體'],
+  ['被欺負', '霸凌'],
+  ['被排擠', '霸凌'],
+  ['排擠', '霸凌'],
+  ['被孤立', '霸凌'],
+  ['孤立', '霸凌'],
+  ['被羞辱', '霸凌'],
+  ['被辱罵', '霸凌'],
+  ['冷暴力', '霸凌'],
+  ['穿小鞋', '霸凌'],
+  ['針對我', '霸凌'],
+  ['毛手毛腳', '性騷擾'],
+  ['開黃腔', '性騷擾'],
+  ['吃豆腐', '性騷擾'],
+  ['性暗示', '性騷擾'],
+  ['最低薪資', '基本工資'],
+  ['最低工資', '基本工資'],
+  ['基本薪資', '基本工資'],
+  ['特休', '特別休假'],
+  ['年假', '特別休假'],
+  ['職災', '職業災害'],
+  ['工傷', '職業災害'],
+  ['被離職', '非自願離職'],
+  ['失業金', '失業給付'],
+  ['失業補助', '失業給付'],
+  ['育嬰假', '育嬰留職停薪'],
+  ['留職停薪', '育嬰留職停薪'],
+  ['外勞', '移工']
 ];
+
+// 每個口語用字最後統一成的「標準詞」，用來做關鍵字強配對（見 findClosestMatches）
+const SEARCH_SYNONYM_TERMS = [...new Set(SEARCH_SYNONYMS.map(([, to]) => to))];
+
+// 命中標準詞時給的最低分數，確保用口語打的長句子（例如「主管一直針對我」）
+// 不會因為整句字組重疊率被稀釋而被門檻擋掉
+const SYNONYM_MATCH_BOOST = 0.5;
 
 function normalizeForMatching(text) {
   // 先轉小寫，避免英文字大小寫不同（例如 LINE／line）被當成不同字比對不到
@@ -422,8 +456,17 @@ function buildScenarioSearchIndex(data) {
 
 function findClosestMatches(query, index, maxResults) {
   const queryGrams = toBigrams(query);
+  const normalizedQuery = normalizeForMatching(query);
+  const matchedTerms = SEARCH_SYNONYM_TERMS.filter(term => normalizedQuery.includes(term));
+
   return index
-    .map(entry => ({ entry, score: bigramOverlapScore(queryGrams, entry.grams) }))
+    .map(entry => {
+      let score = bigramOverlapScore(queryGrams, entry.grams);
+      if (matchedTerms.some(term => entry.label.includes(term))) {
+        score = Math.max(score, SYNONYM_MATCH_BOOST);
+      }
+      return { entry, score };
+    })
     .filter(scored => scored.score >= SCENARIO_SEARCH_THRESHOLD)
     .sort((a, b) => b.score - a.score)
     .slice(0, maxResults)
