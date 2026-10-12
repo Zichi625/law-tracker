@@ -1,3 +1,61 @@
+const IDENTITY_STORAGE_KEY = 'lt_identity';
+const IDENTITY_OPTIONS = [
+  { id: 'employer', label: '我是雇主／HR' },
+  { id: 'employee', label: '我是勞工' },
+  { id: 'all', label: '先瀏覽全部' }
+];
+
+function getIdentity() {
+  try {
+    const stored = localStorage.getItem(IDENTITY_STORAGE_KEY);
+    return IDENTITY_OPTIONS.some(opt => opt.id === stored) ? stored : 'all';
+  } catch (err) {
+    return 'all';
+  }
+}
+
+function setIdentity(id) {
+  try {
+    localStorage.setItem(IDENTITY_STORAGE_KEY, id);
+  } catch (err) {
+    // localStorage 不可用時靜默忽略，身分只是當次瀏覽排序用
+  }
+  identityChangeListeners.forEach(cb => cb(id));
+}
+
+const identityChangeListeners = [];
+function onIdentityChange(callback) {
+  identityChangeListeners.push(callback);
+}
+
+function renderIdentityBar(containerEl) {
+  if (!containerEl) return;
+  containerEl.innerHTML = '';
+  containerEl.className = 'identity-bar';
+
+  const label = document.createElement('span');
+  label.className = 'identity-bar-label';
+  label.textContent = '你的身分：';
+  containerEl.appendChild(label);
+
+  const current = getIdentity();
+  IDENTITY_OPTIONS.forEach(opt => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'identity-button';
+    if (opt.id === current) {
+      button.classList.add('active');
+    }
+    button.textContent = opt.label;
+    button.addEventListener('click', () => {
+      setIdentity(opt.id);
+      containerEl.querySelectorAll('.identity-button').forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+    });
+    containerEl.appendChild(button);
+  });
+}
+
 async function loadLawData() {
   try {
     const response = await fetch('data/laws.json');
@@ -101,6 +159,7 @@ function createQABlock(qa) {
 }
 
 function renderScenarioPage(data) {
+  renderIdentityBar(document.getElementById('identity-bar'));
   const params = new URLSearchParams(window.location.search);
   const scenarioId = params.get('id');
   const scenario = (data.scenarios || []).find(s => s.id === scenarioId);
@@ -127,6 +186,336 @@ function renderScenarioPage(data) {
   container.appendChild(link);
 }
 
+function renderHotGuides(guides) {
+  const container = document.getElementById('hot-guides');
+  if (!container) return;
+  container.innerHTML = '';
+
+  (guides || []).forEach(guide => {
+    const link = document.createElement('a');
+    link.className = 'hot-guide-card';
+    link.href = `guide.html?id=${encodeURIComponent(guide.id)}`;
+    const title = document.createElement('span');
+    title.className = 'hot-guide-card-title';
+    title.textContent = guide.title;
+    link.appendChild(title);
+    if (guide.cardHint) {
+      const hint = document.createElement('span');
+      hint.className = 'hot-guide-card-hint';
+      hint.textContent = guide.cardHint;
+      link.appendChild(hint);
+    }
+    container.appendChild(link);
+  });
+}
+
+function getVisibleQuestions(guide, answers) {
+  return guide.questions.filter(q => !q.showIf || q.showIf(answers));
+}
+
+function createGuideProgress(container, currentStep, totalSteps) {
+  container.innerHTML = '';
+  container.className = 'guide-progress';
+  for (let i = 1; i <= totalSteps; i++) {
+    const dot = document.createElement('span');
+    dot.className = 'guide-progress-dot';
+    if (i < currentStep) dot.classList.add('done');
+    if (i === currentStep) dot.classList.add('active');
+    container.appendChild(dot);
+  }
+  const label = document.createElement('span');
+  label.className = 'guide-progress-label';
+  label.textContent = currentStep > totalSteps ? '結果' : `第 ${currentStep} / ${totalSteps} 題`;
+  container.appendChild(label);
+}
+
+function createAnswerSummary(guide, answers, questionsAsked) {
+  const wrap = document.createElement('div');
+  wrap.className = 'guide-answer-summary';
+  const title = document.createElement('p');
+  title.className = 'guide-answer-summary-title';
+  title.textContent = '你填寫的條件：';
+  wrap.appendChild(title);
+
+  const list = document.createElement('ul');
+  questionsAsked.forEach(q => {
+    const answerValue = answers[q.id];
+    const option = q.options.find(opt => opt.value === answerValue);
+    const li = document.createElement('li');
+    li.textContent = `${q.text}：${option ? option.label : (answerValue === 'unsure' ? '不確定' : '（未作答）')}`;
+    list.appendChild(li);
+  });
+  wrap.appendChild(list);
+
+  const editButton = document.createElement('button');
+  editButton.type = 'button';
+  editButton.className = 'guide-edit-button';
+  editButton.textContent = '返回修改答案';
+  wrap.appendChild(editButton);
+
+  return { el: wrap, editButton };
+}
+
+const REFERENCE_TYPE_LABELS = {
+  law: '法規規定',
+  administrative: '行政說明',
+  court: '法院見解',
+  advice: '本站實務建議'
+};
+
+function createReferenceList(references) {
+  const wrap = document.createElement('div');
+  wrap.className = 'guide-reference-list';
+  references.forEach(ref => {
+    const block = document.createElement('div');
+    block.className = `guide-reference guide-reference--${ref.type}`;
+    const tag = document.createElement('span');
+    tag.className = 'guide-reference-tag';
+    tag.textContent = REFERENCE_TYPE_LABELS[ref.type] || '說明';
+    block.appendChild(tag);
+    const text = document.createElement('p');
+    text.className = 'guide-reference-text';
+    text.textContent = ref.text;
+    block.appendChild(text);
+    if (ref.detail) {
+      const detail = document.createElement('p');
+      detail.className = 'guide-reference-detail';
+      detail.textContent = ref.detail;
+      block.appendChild(detail);
+    }
+    wrap.appendChild(block);
+  });
+  return wrap;
+}
+
+function createChecklistFromOutcome(outcome, identity) {
+  const steps = identity === 'employee'
+    ? [...outcome.employeeSteps, ...outcome.employerSteps]
+    : [...outcome.employerSteps, ...outcome.employeeSteps];
+
+  const wrap = document.createElement('div');
+  wrap.className = 'guide-checklist';
+  steps.forEach((step, index) => {
+    const row = document.createElement('label');
+    row.className = 'guide-checklist-row';
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = `guide-checklist-${index}`;
+    row.appendChild(checkbox);
+    const text = document.createElement('span');
+    text.textContent = step;
+    row.appendChild(text);
+    wrap.appendChild(row);
+  });
+  return wrap;
+}
+
+function renderGuideResult(container, guide, answers, questionsAsked) {
+  container.innerHTML = '';
+  const outcome = guide.resolve(answers);
+  const identity = getIdentity();
+
+  if (outcome.demo) {
+    const demoTag = document.createElement('p');
+    demoTag.className = 'guide-demo-tag';
+    demoTag.textContent = '示範內容，非正式法律答案';
+    container.appendChild(demoTag);
+  }
+
+  const summaryBlock = createAnswerSummary(guide, answers, questionsAsked);
+  container.appendChild(summaryBlock.el);
+  summaryBlock.editButton.addEventListener('click', () => {
+    renderGuideFlow(guide, { ...answers }, 0);
+  });
+
+  const section1 = document.createElement('section');
+  section1.className = 'guide-result-section';
+  const h1 = document.createElement('h3');
+  h1.textContent = '重點說明';
+  section1.appendChild(h1);
+  const summaryText = document.createElement('p');
+  summaryText.textContent = outcome.summary;
+  section1.appendChild(summaryText);
+  if (outcome.conditions.length) {
+    const condList = document.createElement('ul');
+    outcome.conditions.forEach(c => {
+      const li = document.createElement('li');
+      li.textContent = c;
+      condList.appendChild(li);
+    });
+    section1.appendChild(condList);
+  }
+  container.appendChild(section1);
+
+  if (outcome.missingInfo.length) {
+    const section2 = document.createElement('section');
+    section2.className = 'guide-result-section guide-result-section--missing';
+    const h2 = document.createElement('h3');
+    h2.textContent = '還需要確認的事項';
+    section2.appendChild(h2);
+    const missingList = document.createElement('ul');
+    outcome.missingInfo.forEach(m => {
+      const li = document.createElement('li');
+      li.textContent = m;
+      missingList.appendChild(li);
+    });
+    section2.appendChild(missingList);
+    container.appendChild(section2);
+  }
+
+  function buildStepsSection(title, steps, modifier) {
+    if (!steps.length) return null;
+    const section = document.createElement('section');
+    section.className = `guide-result-section notes-block--${modifier}`;
+    const h3 = document.createElement('h3');
+    h3.textContent = title;
+    section.appendChild(h3);
+    const list = document.createElement('ul');
+    steps.forEach(s => {
+      const li = document.createElement('li');
+      li.textContent = s;
+      list.appendChild(li);
+    });
+    section.appendChild(list);
+    return section;
+  }
+
+  const employerSection = buildStepsSection('雇主／HR 處理建議', outcome.employerSteps, 'employer');
+  const employeeSection = buildStepsSection('勞工處理建議', outcome.employeeSteps, 'employee');
+  const stepSections = identity === 'employee'
+    ? [employeeSection, employerSection]
+    : [employerSection, employeeSection];
+  stepSections.forEach(section => { if (section) container.appendChild(section); });
+
+  if (outcome.misconceptions.length) {
+    const section5 = document.createElement('section');
+    section5.className = 'guide-result-section';
+    const h5 = document.createElement('h3');
+    h5.textContent = '常見誤解';
+    section5.appendChild(h5);
+    const list = document.createElement('ul');
+    outcome.misconceptions.forEach(m => {
+      const li = document.createElement('li');
+      li.textContent = m;
+      list.appendChild(li);
+    });
+    section5.appendChild(list);
+    container.appendChild(section5);
+  }
+
+  const section6 = document.createElement('section');
+  section6.className = 'guide-result-section';
+  const h6 = document.createElement('h3');
+  h6.textContent = '法規與官方來源';
+  section6.appendChild(h6);
+  section6.appendChild(createReferenceList(outcome.references));
+  if (outcome.sources.length) {
+    section6.appendChild(createSourceLinks(outcome.sources));
+  }
+  const verifiedNote = document.createElement('p');
+  verifiedNote.className = 'guide-verified-note';
+  verifiedNote.textContent = `內容查核日期：${outcome.verifiedAt}`;
+  section6.appendChild(verifiedNote);
+  container.appendChild(section6);
+
+  const section7 = document.createElement('section');
+  section7.className = 'guide-result-section guide-print-section';
+  const h7 = document.createElement('h3');
+  h7.textContent = '處理清單';
+  section7.appendChild(h7);
+  section7.appendChild(createChecklistFromOutcome(outcome, identity));
+  const printButton = document.createElement('button');
+  printButton.type = 'button';
+  printButton.className = 'guide-print-button no-print';
+  printButton.textContent = '列印這份結果';
+  printButton.addEventListener('click', () => window.print());
+  section7.appendChild(printButton);
+  container.appendChild(section7);
+
+  const printMeta = document.createElement('div');
+  printMeta.className = 'guide-print-meta print-only';
+  printMeta.textContent = `列印時間：${new Date().toISOString().slice(0, 10)}｜適用條件：${outcome.conditions.join('；') || '無特別條件'}｜內容查核日期：${outcome.verifiedAt}`;
+  container.appendChild(printMeta);
+}
+
+function renderGuideFlow(guide, answers, stepIndex) {
+  const bodyContainer = document.getElementById('guide-body');
+  const progressContainer = document.getElementById('guide-progress');
+  const visibleQuestions = getVisibleQuestions(guide, answers);
+
+  if (stepIndex >= visibleQuestions.length) {
+    createGuideProgress(progressContainer, visibleQuestions.length + 1, visibleQuestions.length);
+    renderGuideResult(bodyContainer, guide, answers, visibleQuestions);
+    return;
+  }
+
+  createGuideProgress(progressContainer, stepIndex + 1, visibleQuestions.length);
+
+  bodyContainer.innerHTML = '';
+  const question = visibleQuestions[stepIndex];
+
+  const questionEl = document.createElement('p');
+  questionEl.className = 'guide-question-text';
+  questionEl.textContent = question.text;
+  bodyContainer.appendChild(questionEl);
+
+  const optionsWrap = document.createElement('div');
+  optionsWrap.className = 'guide-options';
+  const allOptions = question.allowUnsure
+    ? [...question.options, { value: 'unsure', label: '不確定／之後再確認' }]
+    : question.options;
+
+  allOptions.forEach(opt => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'guide-option-button';
+    if (opt.value === 'unsure') button.classList.add('guide-option-button--unsure');
+    button.textContent = opt.label;
+    button.addEventListener('click', () => {
+      const nextAnswers = { ...answers, [question.id]: opt.value };
+      const nextVisible = getVisibleQuestions(guide, nextAnswers);
+      const nextIndex = nextVisible.findIndex(q => !(q.id in nextAnswers));
+      renderGuideFlow(guide, nextAnswers, nextIndex === -1 ? nextVisible.length : nextIndex);
+    });
+    optionsWrap.appendChild(button);
+  });
+  bodyContainer.appendChild(optionsWrap);
+
+  if (stepIndex > 0) {
+    const backButton = document.createElement('button');
+    backButton.type = 'button';
+    backButton.className = 'guide-back-button';
+    backButton.textContent = '← 上一題';
+    backButton.addEventListener('click', () => {
+      const prevAnswers = { ...answers };
+      delete prevAnswers[question.id];
+      renderGuideFlow(guide, prevAnswers, stepIndex - 1);
+    });
+    bodyContainer.appendChild(backButton);
+  }
+}
+
+function renderGuidePage(data) {
+  renderIdentityBar(document.getElementById('identity-bar'));
+  renderNavMenu(data.categories, null);
+
+  const params = new URLSearchParams(window.location.search);
+  const guideId = params.get('id');
+  const guideData = window.LAW_GUIDE_DATA || { guides: [] };
+  const guide = guideData.guides.find(g => g.id === guideId);
+
+  if (!guide) {
+    document.getElementById('guide-title').textContent = '找不到這個情境問答';
+    document.getElementById('guide-notfound').hidden = false;
+    return;
+  }
+
+  document.title = `多角人才勞動法規指南 - ${guide.title}`;
+  document.getElementById('guide-title').textContent = guide.title;
+
+  renderGuideFlow(guide, {}, 0);
+}
+
 const STATUS_LABELS = {
   effective: '● 已生效',
   announced: '◷ 已公告未生效',
@@ -143,7 +532,7 @@ function createStatusBadge(status) {
   return badge;
 }
 
-function createItemCard(item, category) {
+function createItemCard(item, category, identity = 'all') {
   const card = document.createElement('article');
   card.className = 'item-card';
 
@@ -202,19 +591,22 @@ function createItemCard(item, category) {
   summary.textContent = item.summary;
   card.appendChild(summary);
 
-  const employerBlock = document.createElement('div');
-  employerBlock.className = 'notes-block notes-block--employer';
-  const employerTag = document.createElement('span');
-  employerTag.className = 'notes-tag';
-  employerTag.textContent = '雇主注意';
-  const employerText = document.createElement('p');
-  employerText.className = 'notes-text';
-  employerText.textContent = item.employerNotes;
-  employerBlock.appendChild(employerTag);
-  employerBlock.appendChild(employerText);
-  card.appendChild(employerBlock);
+  function buildEmployerBlock() {
+    const employerBlock = document.createElement('div');
+    employerBlock.className = 'notes-block notes-block--employer';
+    const employerTag = document.createElement('span');
+    employerTag.className = 'notes-tag';
+    employerTag.textContent = '雇主注意';
+    const employerText = document.createElement('p');
+    employerText.className = 'notes-text';
+    employerText.textContent = item.employerNotes;
+    employerBlock.appendChild(employerTag);
+    employerBlock.appendChild(employerText);
+    return employerBlock;
+  }
 
-  if (item.employeeNotes) {
+  function buildEmployeeBlock() {
+    if (!item.employeeNotes) return null;
     const employeeBlock = document.createElement('div');
     employeeBlock.className = 'notes-block notes-block--employee';
     const employeeTag = document.createElement('span');
@@ -225,8 +617,17 @@ function createItemCard(item, category) {
     employeeText.textContent = item.employeeNotes;
     employeeBlock.appendChild(employeeTag);
     employeeBlock.appendChild(employeeText);
-    card.appendChild(employeeBlock);
+    return employeeBlock;
   }
+
+  const employerBlock = buildEmployerBlock();
+  const employeeBlock = buildEmployeeBlock();
+  const blocksInOrder = identity === 'employee'
+    ? [employeeBlock, employerBlock]
+    : [employerBlock, employeeBlock];
+  blocksInOrder.forEach(block => {
+    if (block) card.appendChild(block);
+  });
 
   if (item.appliesTo) {
     const appliesTo = document.createElement('p');
@@ -443,6 +844,15 @@ function buildScenarioSearchIndex(data) {
       grams: toBigrams(searchableText)
     });
   });
+  ((window.LAW_GUIDE_DATA || {}).guides || []).forEach(guide => {
+    const searchableText = [guide.title, guide.cardHint, guide.intro].filter(Boolean).join('　');
+    index.push({
+      type: 'guide',
+      id: guide.id,
+      label: guide.title,
+      grams: toBigrams(searchableText)
+    });
+  });
   (data.categories || []).forEach(category => {
     index.push({
       type: 'category',
@@ -479,7 +889,7 @@ function renderScenarioSearchResults(container, matches) {
   if (matches.length === 0) {
     const empty = document.createElement('p');
     empty.className = 'scenario-search-empty';
-    empty.textContent = '沒有直接對應的情境，請到下方瀏覽分類，或用上方的「搜尋關鍵字」功能查詢。';
+    empty.textContent = '沒有直接對應的相關情境，請到下方瀏覽分類，或用下方的「搜尋關鍵字」功能查詢。';
     container.appendChild(empty);
     return;
   }
@@ -487,19 +897,24 @@ function renderScenarioSearchResults(container, matches) {
   matches.forEach(entry => {
     const link = document.createElement('a');
     link.className = 'scenario-search-result';
-    if (entry.type === 'scenario') {
+    if (entry.type === 'guide') {
+      link.href = `guide.html?id=${encodeURIComponent(entry.id)}`;
+      link.textContent = `相關情境：${entry.label}`;
+    } else if (entry.type === 'scenario') {
       link.href = `scenario.html?id=${encodeURIComponent(entry.id)}`;
-      link.textContent = `可能是：${entry.label}`;
+      link.textContent = `相關情境：${entry.label}`;
     } else {
       link.href = `category.html?cat=${encodeURIComponent(entry.id)}`;
-      link.textContent = `可能是：${entry.label}（分類）`;
+      link.textContent = `相關分類：${entry.label}`;
     }
     container.appendChild(link);
   });
 }
 
 function renderOverviewPage(data) {
+  renderIdentityBar(document.getElementById('identity-bar'));
   renderNavMenu(data.categories, null);
+  renderHotGuides((window.LAW_GUIDE_DATA || { guides: [] }).guides);
   renderScenarioNav(data.scenarios);
 
   const scenarioSearchInput = document.getElementById('scenario-search-input');
@@ -542,7 +957,7 @@ function renderOverviewPage(data) {
 
     pageItems.forEach(item => {
       const category = getCategoryById(data.categories, item.categoryId);
-      container.appendChild(createItemCard(item, category));
+      container.appendChild(createItemCard(item, category, getIdentity()));
     });
 
     if (paginationContainer) {
@@ -571,9 +986,11 @@ function renderOverviewPage(data) {
       renderList(searchInput.value.trim());
     });
   }
+  onIdentityChange(() => renderList(searchInput ? searchInput.value.trim() : ''));
 }
 
 function renderCategoryPage(data) {
+  renderIdentityBar(document.getElementById('identity-bar'));
   const params = new URLSearchParams(window.location.search);
   const categoryId = params.get('cat');
   const category = getCategoryById(data.categories, categoryId);
@@ -596,7 +1013,7 @@ function renderCategoryPage(data) {
   function renderList(keyword) {
     container.innerHTML = '';
     const filtered = items.filter(item => itemMatchesKeyword(item, category, keyword));
-    filtered.forEach(item => container.appendChild(createItemCard(item, category)));
+    filtered.forEach(item => container.appendChild(createItemCard(item, category, getIdentity())));
 
     if (items.length === 0) {
       emptyMessage.textContent = '這個分類尚未有資料';
@@ -613,6 +1030,7 @@ function renderCategoryPage(data) {
   if (searchInput) {
     searchInput.addEventListener('input', () => renderList(searchInput.value.trim()));
   }
+  onIdentityChange(() => renderList(searchInput ? searchInput.value.trim() : ''));
 }
 
 async function init() {
@@ -624,6 +1042,8 @@ async function init() {
     renderCategoryPage(data);
   } else if (page === 'scenario') {
     renderScenarioPage(data);
+  } else if (page === 'guide') {
+    renderGuidePage(data);
   }
 }
 
