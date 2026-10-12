@@ -164,8 +164,6 @@ function renderScenarioPage(data) {
   const scenarioId = params.get('id');
   const scenario = (data.scenarios || []).find(s => s.id === scenarioId);
 
-  renderNavMenu(data.categories, null);
-
   if (!scenario) {
     document.getElementById('scenario-title').textContent = '找不到這個情境';
     document.getElementById('scenario-notfound').hidden = false;
@@ -497,7 +495,6 @@ function renderGuideFlow(guide, answers, stepIndex) {
 
 function renderGuidePage(data) {
   renderIdentityBar(document.getElementById('identity-bar'));
-  renderNavMenu(data.categories, null);
 
   const params = new URLSearchParams(window.location.search);
   const guideId = params.get('id');
@@ -648,57 +645,116 @@ function createItemCard(item, category, identity = 'all') {
   return card;
 }
 
-const CATEGORY_GROUP_ORDER = ['假別／請假', '薪資與給付', '健保與保費', '反霸凌與性平', '移工與求職者', '勞保與勞退', '工時與職災', '就業平等與解僱'];
-const FALLBACK_GROUP_NAME = '其他';
-
-function groupCategories(categories) {
-  const groups = new Map();
-  categories.forEach(category => {
-    const groupName = category.group || FALLBACK_GROUP_NAME;
-    if (!groups.has(groupName)) {
-      groups.set(groupName, []);
-    }
-    groups.get(groupName).push(category);
-  });
-
-  const orderedNames = [
-    ...CATEGORY_GROUP_ORDER.filter(name => groups.has(name)),
-    ...[...groups.keys()].filter(name => !CATEGORY_GROUP_ORDER.includes(name))
-  ];
-
-  return orderedNames.map(name => ({ name, categories: groups.get(name) }));
+function getBigGroupById(bigGroups, bigGroupId) {
+  return (bigGroups || []).find(g => g.id === bigGroupId) || null;
 }
 
-function renderNavMenu(categories, activeCategoryId) {
-  const nav = document.getElementById('category-nav');
-  if (!nav) return;
-  nav.innerHTML = '';
+function renderBigGroupCards(bigGroups, containerEl) {
+  if (!containerEl) return;
+  containerEl.innerHTML = '';
 
-  groupCategories(categories).forEach(group => {
-    const groupEl = document.createElement('div');
-    groupEl.className = 'nav-group';
+  (bigGroups || []).forEach(group => {
+    const link = document.createElement('a');
+    link.className = 'big-group-card';
+    link.href = `group.html?id=${encodeURIComponent(group.id)}`;
+
+    const text = document.createElement('span');
+    text.className = 'big-group-card-text';
 
     const title = document.createElement('span');
-    title.className = 'nav-group-title';
+    title.className = 'big-group-card-title';
     title.textContent = group.name;
-    groupEl.appendChild(title);
+    text.appendChild(title);
 
-    const linksWrap = document.createElement('div');
-    linksWrap.className = 'nav-group-links';
+    const desc = document.createElement('span');
+    desc.className = 'big-group-card-desc';
+    desc.textContent = group.description;
+    text.appendChild(desc);
 
-    group.categories.forEach(category => {
-      const link = document.createElement('a');
-      link.href = `category.html?cat=${encodeURIComponent(category.id)}`;
-      link.textContent = category.name;
-      link.className = 'category-nav-link';
-      if (category.id === activeCategoryId) {
-        link.classList.add('active');
-      }
-      linksWrap.appendChild(link);
-    });
+    link.appendChild(text);
 
-    groupEl.appendChild(linksWrap);
-    nav.appendChild(groupEl);
+    const arrow = document.createElement('span');
+    arrow.className = 'big-group-card-arrow';
+    arrow.textContent = '→';
+    arrow.setAttribute('aria-hidden', 'true');
+    link.appendChild(arrow);
+
+    containerEl.appendChild(link);
+  });
+}
+
+function renderCategoryBreadcrumb(containerEl, bigGroup) {
+  if (!containerEl) return;
+  containerEl.innerHTML = '';
+
+  const homeLink = document.createElement('a');
+  homeLink.href = 'index.html';
+  homeLink.textContent = '首頁';
+  containerEl.appendChild(homeLink);
+
+  if (bigGroup) {
+    const separator = document.createElement('span');
+    separator.className = 'breadcrumb-separator';
+    separator.textContent = '／';
+    containerEl.appendChild(separator);
+
+    const groupLink = document.createElement('a');
+    groupLink.href = `group.html?id=${encodeURIComponent(bigGroup.id)}`;
+    groupLink.textContent = bigGroup.name;
+    containerEl.appendChild(groupLink);
+  }
+}
+
+function renderGroupPage(data) {
+  renderIdentityBar(document.getElementById('identity-bar'));
+
+  const params = new URLSearchParams(window.location.search);
+  const groupId = params.get('id');
+  const bigGroup = getBigGroupById(data.bigGroups, groupId);
+
+  if (!bigGroup) {
+    document.getElementById('group-title').textContent = '找不到這個分類';
+    document.getElementById('group-notfound').hidden = false;
+    return;
+  }
+
+  document.title = `多角人才勞動法規指南 - ${bigGroup.name}`;
+  document.getElementById('group-title').textContent = bigGroup.name;
+  document.getElementById('group-description').textContent = bigGroup.description;
+
+  const subcategories = data.categories.filter(c => c.bigGroupId === bigGroup.id);
+  const listEl = document.getElementById('subcategory-list');
+  listEl.innerHTML = '';
+
+  subcategories.forEach(category => {
+    const link = document.createElement('a');
+    link.className = 'subcategory-row';
+    link.href = `category.html?cat=${encodeURIComponent(category.id)}`;
+
+    const text = document.createElement('span');
+    text.className = 'subcategory-row-text';
+
+    const name = document.createElement('span');
+    name.className = 'subcategory-row-name';
+    name.textContent = category.name;
+    text.appendChild(name);
+
+    if (category.shortDesc) {
+      const desc = document.createElement('span');
+      desc.className = 'subcategory-row-desc';
+      desc.textContent = category.shortDesc;
+      text.appendChild(desc);
+    }
+
+    link.appendChild(text);
+
+    const arrow = document.createElement('span');
+    arrow.className = 'subcategory-row-arrow';
+    arrow.textContent = '→';
+    arrow.setAttribute('aria-hidden', 'true');
+    link.appendChild(arrow);
+
+    listEl.appendChild(link);
   });
 }
 
@@ -913,9 +969,9 @@ function renderScenarioSearchResults(container, matches) {
 
 function renderOverviewPage(data) {
   renderIdentityBar(document.getElementById('identity-bar'));
-  renderNavMenu(data.categories, null);
   renderHotGuides((window.LAW_GUIDE_DATA || { guides: [] }).guides);
   renderScenarioNav(data.scenarios);
+  renderBigGroupCards(data.bigGroups, document.getElementById('big-groups'));
 
   const scenarioSearchInput = document.getElementById('scenario-search-input');
   const scenarioSearchResults = document.getElementById('scenario-search-results');
@@ -995,14 +1051,14 @@ function renderCategoryPage(data) {
   const categoryId = params.get('cat');
   const category = getCategoryById(data.categories, categoryId);
 
-  renderNavMenu(data.categories, categoryId);
-
   if (!category) {
+    renderCategoryBreadcrumb(document.getElementById('breadcrumb'), null);
     document.getElementById('category-title').textContent = '找不到這個分類';
     document.getElementById('category-notfound').hidden = false;
     return;
   }
 
+  renderCategoryBreadcrumb(document.getElementById('breadcrumb'), getBigGroupById(data.bigGroups, category.bigGroupId));
   document.getElementById('category-title').textContent = category.name;
 
   const items = sortItemsByDateDesc(data.items.filter(item => item.categoryId === categoryId));
@@ -1044,6 +1100,8 @@ async function init() {
     renderScenarioPage(data);
   } else if (page === 'guide') {
     renderGuidePage(data);
+  } else if (page === 'group') {
+    renderGroupPage(data);
   }
 }
 

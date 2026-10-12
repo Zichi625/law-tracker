@@ -1,120 +1,174 @@
 {
   "lastRefreshedAt": "2026-09-29",
+  "bigGroups": [
+    { "id": "leave", "name": "請假與休假", "description": "病假、特休、育嬰留停、婚假怎麼請" },
+    { "id": "pay-hours", "name": "薪資與工時", "description": "基本工資、加班費與工時上限規定" },
+    { "id": "insurance-pension", "name": "勞健保與退休", "description": "勞健保、勞退提繳與老年給付" },
+    { "id": "contract-termination", "name": "契約與離職", "description": "資遣、試用期、承攬認定與解僱保護" },
+    { "id": "workplace-rights", "name": "職場權益與申訴", "description": "職場霸凌、性騷擾與就業歧視禁止" },
+    { "id": "hiring-special", "name": "招募與特殊身分", "description": "求職者個資與外籍移工相關規定" }
+  ],
   "categories": [
     {
       "id": "workplace-bullying",
       "name": "職場霸凌防治",
-      "group": "反霸凌與性平"
+      "group": "反霸凌與性平",
+      "bigGroupId": "workplace-rights",
+      "shortDesc": "職場霸凌通報、調查程序與罰則"
     },
     {
       "id": "sexual-harassment",
       "name": "性騷擾防治（性平三法）",
-      "group": "反霸凌與性平"
+      "group": "反霸凌與性平",
+      "bigGroupId": "workplace-rights",
+      "shortDesc": "雇主查證義務與最高負責人責任"
     },
     {
       "id": "parental-leave",
       "name": "育嬰留職停薪彈性化",
-      "group": "假別／請假"
+      "group": "假別／請假",
+      "bigGroupId": "leave",
+      "shortDesc": "按日申請、家庭照顧假與留停延長進度"
     },
     {
       "id": "minimum-wage",
       "name": "基本工資調整",
-      "group": "薪資與給付"
+      "group": "薪資與給付",
+      "bigGroupId": "pay-hours",
+      "shortDesc": "每年基本工資調整與審議進度"
     },
     {
       "id": "sick-leave",
       "name": "病假／全勤獎金新制",
-      "group": "假別／請假"
+      "group": "假別／請假",
+      "bigGroupId": "leave",
+      "shortDesc": "病假天數保障與全勤獎金扣減規定"
     },
     {
       "id": "migrant-worker-pension",
       "name": "外籍移工舊制退休金提撥",
-      "group": "移工與求職者"
+      "group": "移工與求職者",
+      "bigGroupId": "hiring-special",
+      "shortDesc": "移工納入勞退舊制提撥的規定"
     },
     {
       "id": "applicant-data-retention",
       "name": "求職者個資保存期限",
-      "group": "移工與求職者"
+      "group": "移工與求職者",
+      "bigGroupId": "hiring-special",
+      "shortDesc": "未錄取者履歷保存期限規定"
     },
     {
       "id": "employer-nhi-premium",
       "name": "雇主二代健保補充保費",
-      "group": "健保與保費"
+      "group": "健保與保費",
+      "bigGroupId": "insurance-pension",
+      "shortDesc": "雇主二代健保補充保費費率與改革動態"
     },
     {
       "id": "annual-leave",
       "name": "特別休假",
-      "group": "假別／請假"
+      "group": "假別／請假",
+      "bigGroupId": "leave",
+      "shortDesc": "特休排定、買斷限制與法院見解"
     },
     {
       "id": "severance-pay",
       "name": "資遣費",
-      "group": "薪資與給付"
+      "group": "薪資與給付",
+      "bigGroupId": "contract-termination",
+      "shortDesc": "資遣費計算、墊償基金與爭議案例"
     },
     {
       "id": "overtime-pay",
       "name": "加班費規定",
-      "group": "薪資與給付"
+      "group": "薪資與給付",
+      "bigGroupId": "pay-hours",
+      "shortDesc": "加班費計算基礎、責任制與下班聯繫"
     },
     {
       "id": "labor-insurance-benefits",
       "name": "勞保現金給付（生育／傷病／失能／死亡）",
-      "group": "勞保與勞退"
+      "group": "勞保與勞退",
+      "bigGroupId": "insurance-pension",
+      "shortDesc": "生育、傷病、失能、死亡現金給付"
     },
     {
       "id": "labor-pension-contribution",
       "name": "勞退新制月提繳率與提繳工資分級",
-      "group": "勞保與勞退"
+      "group": "勞保與勞退",
+      "bigGroupId": "insurance-pension",
+      "shortDesc": "勞退月提繳率、分級表與自願提繳"
     },
     {
       "id": "pension-eligibility",
       "name": "退休金／老年給付請領資格",
-      "group": "勞保與勞退"
+      "group": "勞保與勞退",
+      "bigGroupId": "insurance-pension",
+      "shortDesc": "老年年金與月退休金請領資格"
     },
     {
       "id": "working-hours",
       "name": "正常工時、延長工時上限與輪班間隔",
-      "group": "工時與職災"
+      "group": "工時與職災",
+      "bigGroupId": "pay-hours",
+      "shortDesc": "正常工時上限與輪班間隔休息規定"
     },
     {
       "id": "occupational-injury-insurance",
       "name": "職業災害保險給付與補償",
-      "group": "工時與職災"
+      "group": "工時與職災",
+      "bigGroupId": "insurance-pension",
+      "shortDesc": "職災保險給付與勞工權益協助"
     },
     {
       "id": "labor-contract-probation",
       "name": "勞動契約與試用期規定",
-      "group": "工時與職災"
+      "group": "工時與職災",
+      "bigGroupId": "contract-termination",
+      "shortDesc": "試用期終止契約的函釋與法院見解"
     },
     {
       "id": "contractor-classification",
       "name": "雇傭關係與承攬關係的認定",
-      "group": "工時與職災"
+      "group": "工時與職災",
+      "bigGroupId": "contract-termination",
+      "shortDesc": "承攬／委任是否實質為僱傭關係"
     },
     {
       "id": "employment-discrimination",
       "name": "就業歧視禁止",
-      "group": "就業平等與解僱"
+      "group": "就業平等與解僱",
+      "bigGroupId": "workplace-rights",
+      "shortDesc": "禁止就業歧視事由與裁罰統計"
     },
     {
       "id": "mass-layoff",
       "name": "大量解僱勞工保護",
-      "group": "就業平等與解僱"
+      "group": "就業平等與解僱",
+      "bigGroupId": "contract-termination",
+      "shortDesc": "大量解僱通報門檻與協商程序"
     },
     {
       "id": "involuntary-resignation",
       "name": "非自願離職認定與失業給付",
-      "group": "就業平等與解僱"
+      "group": "就業平等與解僱",
+      "bigGroupId": "contract-termination",
+      "shortDesc": "非自願離職認定與失業給付標準"
     },
     {
       "id": "elderly-nhi-premium-subsidy",
       "name": "老人健保費補助（全國與縣市）",
-      "group": "健保與保費"
+      "group": "健保與保費",
+      "bigGroupId": "insurance-pension",
+      "shortDesc": "全國與各縣市老人健保費補助方案"
     },
     {
       "id": "marriage-leave",
       "name": "婚假天數與薪資補助",
-      "group": "假別／請假"
+      "group": "假別／請假",
+      "bigGroupId": "leave",
+      "shortDesc": "婚假天數延長與薪資補助機制"
     }
   ],
   "items": [
