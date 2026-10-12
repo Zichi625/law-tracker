@@ -184,25 +184,101 @@ function renderScenarioPage(data) {
   container.appendChild(link);
 }
 
-function renderHotGuides(guides) {
+const BIG_GROUP_VISUALS = {
+  leave: {
+    color: '#0f766e',
+    soft: '#e3f5f2',
+    icon: '<path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M8 13h.01"/><path d="M12 13h.01"/><path d="M16 13h.01"/><path d="M8 17h.01"/><path d="M12 17h.01"/><path d="M16 17h.01"/>'
+  },
+  'pay-hours': {
+    color: '#2563eb',
+    soft: '#e8f0fe',
+    icon: '<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>'
+  },
+  'insurance-pension': {
+    color: '#7e22ce',
+    soft: '#f3e8ff',
+    icon: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>'
+  },
+  'contract-termination': {
+    color: '#92400e',
+    soft: '#f5ece1',
+    icon: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/>'
+  },
+  'workplace-rights': {
+    color: '#be123c',
+    soft: '#fbe7ec',
+    icon: '<path d="M12 3v18"/><path d="m19 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1"/><path d="m5 8 3 8a5 5 0 0 1-6 0zV7"/><path d="M7 21h10"/>'
+  },
+  'hiring-special': {
+    color: '#4338ca',
+    soft: '#eceafc',
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/>'
+  }
+};
+
+function applyGroupColors(el, bigGroupId) {
+  const visuals = BIG_GROUP_VISUALS[bigGroupId];
+  if (!visuals) return;
+  el.style.setProperty('--group-color', visuals.color);
+  el.style.setProperty('--group-color-soft', visuals.soft);
+}
+
+function createGroupIcon(bigGroupId) {
+  const visuals = BIG_GROUP_VISUALS[bigGroupId];
+  const wrapper = document.createElement('span');
+  wrapper.className = 'group-icon';
+  if (visuals) {
+    wrapper.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${visuals.icon}</svg>`;
+  }
+  return wrapper;
+}
+
+function createCardArrow() {
+  const arrow = document.createElement('span');
+  arrow.className = 'nav-card-arrow';
+  arrow.textContent = '→';
+  arrow.setAttribute('aria-hidden', 'true');
+  return arrow;
+}
+
+function getGuideBigGroupId(guide, categories) {
+  const firstCategoryId = (guide.categoryIds || [])[0];
+  const category = getCategoryById(categories, firstCategoryId);
+  return category ? category.bigGroupId : null;
+}
+
+function renderHotGuides(guides, categories) {
   const container = document.getElementById('hot-guides');
   if (!container) return;
   container.innerHTML = '';
 
   (guides || []).forEach(guide => {
+    const bigGroupId = getGuideBigGroupId(guide, categories);
     const link = document.createElement('a');
-    link.className = 'hot-guide-card';
+    link.className = 'nav-card hot-guide-card';
     link.href = `guide.html?id=${encodeURIComponent(guide.id)}`;
+    applyGroupColors(link, bigGroupId);
+
+    link.appendChild(createGroupIcon(bigGroupId));
+
+    const text = document.createElement('span');
+    text.className = 'nav-card-text';
+
     const title = document.createElement('span');
-    title.className = 'hot-guide-card-title';
+    title.className = 'nav-card-title';
     title.textContent = guide.title;
-    link.appendChild(title);
+    text.appendChild(title);
+
     if (guide.cardHint) {
       const hint = document.createElement('span');
-      hint.className = 'hot-guide-card-hint';
+      hint.className = 'nav-card-desc';
       hint.textContent = guide.cardHint;
-      link.appendChild(hint);
+      text.appendChild(hint);
     }
+    link.appendChild(text);
+
+    link.appendChild(createCardArrow());
     container.appendChild(link);
   });
 }
@@ -655,29 +731,27 @@ function renderBigGroupCards(bigGroups, containerEl) {
 
   (bigGroups || []).forEach(group => {
     const link = document.createElement('a');
-    link.className = 'big-group-card';
+    link.className = 'nav-card big-group-card';
     link.href = `group.html?id=${encodeURIComponent(group.id)}`;
+    applyGroupColors(link, group.id);
+
+    link.appendChild(createGroupIcon(group.id));
 
     const text = document.createElement('span');
-    text.className = 'big-group-card-text';
+    text.className = 'nav-card-text';
 
     const title = document.createElement('span');
-    title.className = 'big-group-card-title';
+    title.className = 'nav-card-title';
     title.textContent = group.name;
     text.appendChild(title);
 
     const desc = document.createElement('span');
-    desc.className = 'big-group-card-desc';
+    desc.className = 'nav-card-desc';
     desc.textContent = group.description;
     text.appendChild(desc);
 
     link.appendChild(text);
-
-    const arrow = document.createElement('span');
-    arrow.className = 'big-group-card-arrow';
-    arrow.textContent = '→';
-    arrow.setAttribute('aria-hidden', 'true');
-    link.appendChild(arrow);
+    link.appendChild(createCardArrow());
 
     containerEl.appendChild(link);
   });
@@ -701,6 +775,8 @@ function renderCategoryBreadcrumb(containerEl, bigGroup) {
     const groupLink = document.createElement('a');
     groupLink.href = `group.html?id=${encodeURIComponent(bigGroup.id)}`;
     groupLink.textContent = bigGroup.name;
+    groupLink.className = 'breadcrumb-group-link';
+    applyGroupColors(groupLink, bigGroup.id);
     containerEl.appendChild(groupLink);
   }
 }
@@ -722,9 +798,15 @@ function renderGroupPage(data) {
   document.getElementById('group-title').textContent = bigGroup.name;
   document.getElementById('group-description').textContent = bigGroup.description;
 
+  const iconSlot = document.getElementById('group-icon-slot');
+  iconSlot.innerHTML = '';
+  applyGroupColors(iconSlot, bigGroup.id);
+  iconSlot.appendChild(createGroupIcon(bigGroup.id));
+
   const subcategories = data.categories.filter(c => c.bigGroupId === bigGroup.id);
   const listEl = document.getElementById('subcategory-list');
   listEl.innerHTML = '';
+  applyGroupColors(listEl, bigGroup.id);
 
   subcategories.forEach(category => {
     const link = document.createElement('a');
@@ -791,18 +873,23 @@ function renderPaginationControls(container, totalItems, currentPage, onPageChan
   }
 }
 
+// 這些舊版情境已經被首頁的「熱門情境」引導式問答取代，避免兩邊重複列出同一個主題
+const SCENARIOS_SUPERSEDED_BY_GUIDES = ['overtime-calc', 'severance', 'probation-end', 'annual-leave-scenario', 'contractor'];
+
 function renderScenarioNav(scenarios) {
   const container = document.getElementById('scenario-nav');
   if (!container) return;
   container.innerHTML = '';
 
-  (scenarios || []).forEach(scenario => {
-    const link = document.createElement('a');
-    link.className = 'scenario-link';
-    link.href = `scenario.html?id=${encodeURIComponent(scenario.id)}`;
-    link.textContent = scenario.question;
-    container.appendChild(link);
-  });
+  (scenarios || [])
+    .filter(scenario => !SCENARIOS_SUPERSEDED_BY_GUIDES.includes(scenario.id))
+    .forEach(scenario => {
+      const link = document.createElement('a');
+      link.className = 'scenario-link';
+      link.href = `scenario.html?id=${encodeURIComponent(scenario.id)}`;
+      link.textContent = scenario.question;
+      container.appendChild(link);
+    });
 }
 
 const SCENARIO_SEARCH_THRESHOLD = 0.28;
@@ -969,7 +1056,7 @@ function renderScenarioSearchResults(container, matches) {
 
 function renderOverviewPage(data) {
   renderIdentityBar(document.getElementById('identity-bar'));
-  renderHotGuides((window.LAW_GUIDE_DATA || { guides: [] }).guides);
+  renderHotGuides((window.LAW_GUIDE_DATA || { guides: [] }).guides, data.categories);
   renderScenarioNav(data.scenarios);
   renderBigGroupCards(data.bigGroups, document.getElementById('big-groups'));
 

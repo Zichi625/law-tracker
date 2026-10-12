@@ -90,6 +90,21 @@ header h1 {
   color: #6e6e73;
 }
 
+.breadcrumb a.breadcrumb-group-link {
+  color: var(--group-color, var(--brand-color));
+}
+
+.group-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.group-title-row h1 {
+  margin: 0;
+}
+
 .group-description {
   color: #6e6e73;
   font-size: 14px;
@@ -97,21 +112,25 @@ header h1 {
 }
 
 .big-groups-section {
-  margin-bottom: 20px;
+  margin: 28px 0 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e5e7;
 }
 
-.big-groups-grid {
+.big-groups-grid,
+.hot-guides-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
 }
 
-.big-group-card,
+/* 共用的導覽卡片：左側圖示、中間標題與說明、右側箭頭；一般狀態中性，
+   選取/hover/鍵盤focus 統一用該分類的品牌色（由 JS 透過 --group-color 變數帶入） */
+.nav-card,
 .subcategory-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
   background: #ffffff;
   border: 1px solid #e5e5e7;
   border-radius: 10px;
@@ -120,43 +139,67 @@ header h1 {
   color: #1d1d1f;
 }
 
-.big-group-card:hover,
+.nav-card {
+  border-left: 4px solid var(--group-color, var(--brand-color));
+}
+
+.nav-card:hover,
 .subcategory-row:hover {
-  border-color: var(--brand-color);
-  background: var(--brand-color-soft);
+  border-color: var(--group-color, var(--brand-color));
+  background: var(--group-color-soft, var(--brand-color-soft));
 }
 
-.big-group-card:focus-visible,
+.nav-card:focus-visible,
 .subcategory-row:focus-visible {
-  outline: 2px solid var(--brand-color);
+  outline: 2px solid var(--group-color, var(--brand-color));
   outline-offset: 2px;
-  border-color: var(--brand-color);
+  border-color: var(--group-color, var(--brand-color));
 }
 
-.big-group-card-text,
+.group-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--group-color-soft, var(--brand-color-soft));
+  color: var(--group-color, var(--brand-color));
+  flex-shrink: 0;
+}
+
+.group-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.nav-card-text,
 .subcategory-row-text {
   display: flex;
   flex-direction: column;
   gap: 4px;
   min-width: 0;
+  flex: 1;
 }
 
-.big-group-card-title,
+.nav-card-title,
 .subcategory-row-name {
   font-size: 15px;
   font-weight: 700;
+  overflow-wrap: break-word;
 }
 
-.big-group-card-desc,
+.nav-card-desc,
 .subcategory-row-desc {
   font-size: 12px;
   color: #6e6e73;
+  overflow-wrap: break-word;
 }
 
-.big-group-card-arrow,
+.nav-card-arrow,
 .subcategory-row-arrow {
   flex-shrink: 0;
-  color: var(--brand-color);
+  color: var(--group-color, var(--brand-color));
   font-size: 16px;
 }
 
@@ -164,6 +207,10 @@ header h1 {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.subcategory-row {
+  border-left: 3px solid var(--group-color, var(--brand-color));
 }
 
 .search-input {
@@ -192,8 +239,20 @@ header h1 {
   margin: 0 0 16px;
 }
 
-.scenario-nav-section {
-  margin-bottom: 20px;
+.scenario-nav-details {
+  margin-top: 16px;
+}
+
+.scenario-nav-details summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--brand-color);
+  font-weight: 600;
+  padding: 4px 0;
+}
+
+.scenario-nav-details[open] summary {
+  margin-bottom: 12px;
 }
 
 .scenario-nav {
@@ -212,12 +271,10 @@ header h1 {
   font-weight: 600;
   color: #1d1d1f;
   text-decoration: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .scenario-link:hover {
   border-color: #3b82f6;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .scenario-search-results {
@@ -588,41 +645,10 @@ header h1 {
 }
 
 .hot-guides-section {
+  background: #eafaf7;
+  border-radius: 12px;
+  padding: 20px;
   margin-bottom: 20px;
-}
-
-.hot-guides-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 12px;
-}
-
-.hot-guide-card {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  background: #ffffff;
-  border: 1px solid #e5e5e7;
-  border-left: 4px solid var(--brand-color);
-  border-radius: 10px;
-  padding: 16px;
-  text-decoration: none;
-  color: #1d1d1f;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-}
-
-.hot-guide-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.hot-guide-card-title {
-  font-size: 15px;
-  font-weight: 700;
-}
-
-.hot-guide-card-hint {
-  font-size: 12px;
-  color: #6e6e73;
 }
 
 .guide-progress {
@@ -867,7 +893,7 @@ header h1 {
   .search-section,
   .big-groups-section,
   .hot-guides-section,
-  .scenario-nav-section,
+  .scenario-nav-details,
   .guide-progress,
   .guide-options,
   .guide-back-button,
@@ -901,7 +927,8 @@ header h1 {
     max-width: 960px;
   }
 
-  .big-groups-grid {
+  .big-groups-grid,
+  .hot-guides-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
