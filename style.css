@@ -421,11 +421,11 @@ header h1 {
 }
 
 .notes-block--employer {
-  background: #fdf6ee;
+  background: #f2ede8;
 }
 
 .notes-block--employee {
-  background: #eef4fd;
+  background: #eaeef1;
 }
 
 .notes-tag {
@@ -439,11 +439,11 @@ header h1 {
 }
 
 .notes-block--employer .notes-tag {
-  background: #ea580c;
+  background: #8f6640;
 }
 
 .notes-block--employee .notes-tag {
-  background: #2563eb;
+  background: #54728d;
 }
 
 .notes-text {
