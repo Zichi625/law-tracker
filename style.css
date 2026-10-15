@@ -1,6 +1,7 @@
 :root {
-  --brand-color: #0f6a5e;
-  --brand-color-soft: #e6f2f0;
+  --brand-color: #4f6f67;
+  --brand-color-soft: #e3e8e7;
+  --brand-color-hover: #ced7d4;
 }
 
 * {
@@ -60,7 +61,7 @@ header h1 {
 }
 
 .back-link {
-  color: #3b82f6;
+  color: var(--brand-color);
   font-size: 14px;
   text-decoration: none;
 }
@@ -225,7 +226,7 @@ header h1 {
 
 .search-input:focus {
   outline: none;
-  border-color: #3b82f6;
+  border-color: var(--brand-color);
 }
 
 .section {
@@ -274,7 +275,7 @@ header h1 {
 }
 
 .scenario-link:hover {
-  border-color: #3b82f6;
+  border-color: var(--brand-color);
 }
 
 .scenario-search-results {
@@ -286,17 +287,17 @@ header h1 {
 
 .scenario-search-result {
   display: block;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
+  background: var(--brand-color-soft);
+  border: 1px solid var(--brand-color-hover);
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 14px;
-  color: #1d4ed8;
+  color: var(--brand-color);
   text-decoration: none;
 }
 
 .scenario-search-result:hover {
-  background: #dbeafe;
+  background: var(--brand-color-hover);
 }
 
 .scenario-search-empty {
@@ -459,7 +460,7 @@ header h1 {
 }
 
 .item-sources a {
-  color: #3b82f6;
+  color: var(--brand-color);
   margin-right: 4px;
 }
 
@@ -589,7 +590,7 @@ header h1 {
 .scenario-full-list-link {
   display: inline-block;
   margin-top: 4px;
-  color: #3b82f6;
+  color: var(--brand-color);
   font-size: 14px;
   text-decoration: none;
 }
@@ -645,7 +646,7 @@ header h1 {
 }
 
 .hot-guides-section {
-  background: #eafaf7;
+  background: var(--brand-color-soft);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 20px;
@@ -716,7 +717,7 @@ header h1 {
 
 .guide-back-button {
   font-size: 13px;
-  color: #3b82f6;
+  color: var(--brand-color);
   background: none;
   border: none;
   cursor: pointer;
@@ -743,9 +744,9 @@ header h1 {
 
 .guide-edit-button {
   font-size: 13px;
-  color: #3b82f6;
+  color: var(--brand-color);
   background: none;
-  border: 1px solid #3b82f6;
+  border: 1px solid var(--brand-color);
   border-radius: 999px;
   padding: 4px 12px;
   cursor: pointer;
