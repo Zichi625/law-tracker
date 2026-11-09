@@ -217,7 +217,9 @@
       "appliesTo": "10人以上之事業單位（30人以上另有加重義務）",
       "penalty": "依違反條款不同，裁罰級距約新臺幣1萬元至150萬元；部分媒體另引用「合併最高450萬元」的計算方式，各報導計算基礎不一，實際罰則請以勞動部正式發布的條文為準",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "workplace-bullying-2022-08-18-1",
@@ -239,7 +241,9 @@
       ],
       "appliesTo": "員工人數達100人以上之事業單位（依職業安全衛生設施規則第324條之3）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "workplace-bullying-2025-02-21-1",
@@ -261,7 +265,9 @@
       ],
       "appliesTo": "所有依職業安全衛生法應辦理不法侵害預防之事業單位（員工數100人以上者需訂定書面計畫）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "workplace-bullying-2024-11-04-1",
@@ -284,7 +290,9 @@
       "appliesTo": "所有雇主（本案雖為公務機關案例，但職場霸凌的認定邏輯與對雇主管理責任的啟示，同樣適用於一般民間企業）",
       "penalty": "本案為監察院對公務人員的彈劾案（非行政裁罰），謝宜容、蔡孟良均遭彈劾並移送懲戒法院；最終懲戒結果截至查證當下尚待懲戒法院審理，尚無最終定案結果",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "sexual-harassment-2024-03-08-1",
@@ -306,7 +314,9 @@
       ],
       "appliesTo": "10人以上之事業單位",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "sexual-harassment-2026-04-08-1",
@@ -329,7 +339,9 @@
       "appliesTo": "所有雇主，尤其是公司治理結構中有董事會、大股東、或負責人親屬參與經營的企業（含家族企業）",
       "penalty": "對「最高負責人」（含新增6類視同最高負責人之人）之性騷擾行為，經地方主管機關認定成立，依性別平等工作法規定最重可處新臺幣100萬元罰鍰",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "parental-leave-2021-07-01-1",
@@ -351,7 +363,9 @@
       ],
       "appliesTo": "育嬰留職停薪期間請領津貼之受僱者",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "parental-leave-2022-01-18-1",
@@ -369,7 +383,9 @@
       ],
       "appliesTo": "育嬰留職停薪之受僱者及其配偶",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "parental-leave-2026-01-01-1",
@@ -391,7 +407,9 @@
       ],
       "isNew": false,
       "addedAt": "2026-07-20",
-      "employeeNotes": "你現在可以用「日」為單位請育嬰留停，不用整月請，一名子女最多可以請到30天彈性天數（雙親合計60天），只要提前5天跟公司說（緊急狀況最快提前1天），不用再等到10天前。申請方式可以跟公司約定用LINE、email傳送，不一定要紙本書面。如果你跟配偶都各自請滿6個月津貼，記得留意可以再各自申請第7個月津貼，別忘了去請領。家庭照顧假現在也能用「小時」計算，不用一定要請一整天。"
+      "employeeNotes": "你現在可以用「日」為單位請育嬰留停，不用整月請，一名子女最多可以請到30天彈性天數（雙親合計60天），只要提前5天跟公司說（緊急狀況最快提前1天），不用再等到10天前。申請方式可以跟公司約定用LINE、email傳送，不一定要紙本書面。如果你跟配偶都各自請滿6個月津貼，記得留意可以再各自申請第7個月津貼，別忘了去請領。家庭照顧假現在也能用「小時」計算，不用一定要請一整天。",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "parental-leave-2026-05-28-1",
@@ -413,7 +431,9 @@
       ],
       "isNew": false,
       "addedAt": "2026-07-20",
-      "employeeNotes": "這些新的育兒假權益（6歲以下適用、60天彈性育兒假、津貼延長到9個月）目前都還是草案，還沒有正式生效，不能主張適用；如果想用，現在還是要依照現行規定（3歲以下、30天彈性天數、津貼最長6個月加碼）申請。建議持續關注立法院審議進度，草案通過三讀、政府公告施行日期後才會真的生效。"
+      "employeeNotes": "這些新的育兒假權益（6歲以下適用、60天彈性育兒假、津貼延長到9個月）目前都還是草案，還沒有正式生效，不能主張適用；如果想用，現在還是要依照現行規定（3歲以下、30天彈性天數、津貼最長6個月加碼）申請。建議持續關注立法院審議進度，草案通過三讀、政府公告施行日期後才會真的生效。",
+      "statusDetail": "review",
+      "hrImpact": "watch"
     },
     {
       "id": "minimum-wage-2021-01-01-1",
@@ -435,7 +455,9 @@
       ],
       "penalty": "違反基本工資規定最高可處新臺幣100萬元罰鍰（依當時勞動基準法第79條，裁罰範圍為2萬元以上100萬元以下；此時最低工資法尚未施行，沒有後來150萬元的加重上限）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "minimum-wage-2022-01-01-1",
@@ -457,7 +479,9 @@
       ],
       "penalty": "違反基本工資規定最高可處新臺幣100萬元罰鍰（依當時勞動基準法第79條，裁罰範圍為2萬元以上100萬元以下；此時最低工資法尚未施行，沒有後來150萬元的加重上限）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "minimum-wage-2023-01-01-1",
@@ -479,7 +503,9 @@
       ],
       "penalty": "違反基本工資規定最高可處新臺幣100萬元罰鍰（依當時勞動基準法第79條，裁罰範圍為2萬元以上100萬元以下；此時最低工資法尚未施行，沒有後來150萬元的加重上限）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "minimum-wage-2024-01-01-1",
@@ -501,7 +527,9 @@
       ],
       "penalty": "自2024年1月1日《最低工資法》施行起，違反最低工資規定最高可處新臺幣150萬元罰鍰（基本額度為2萬元以上100萬元以下，主管機關可再依事業規模、違反人數或情節加重至150萬元）；此額度比2021~2023年最高100萬元的規定更重",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "minimum-wage-2025-01-01-1",
@@ -523,7 +551,9 @@
       ],
       "penalty": "違反最低工資規定最高可處新臺幣150萬元罰鍰（基本額度為2萬元以上100萬元以下，主管機關可再依事業規模、違反人數或情節加重至150萬元）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "minimum-wage-2026-01-01-1",
@@ -541,7 +571,9 @@
       ],
       "penalty": "違反最低工資規定最高可處新臺幣150萬元罰鍰",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "sick-leave-2026-01-01-1",
@@ -563,7 +595,9 @@
       ],
       "penalty": "新臺幣2萬元至100萬元罰鍰",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "sick-leave-2023-05-01-1",
@@ -586,7 +620,9 @@
       "appliesTo": "懷孕未滿3個月流產、未請產假而選擇請普通傷病假的女性勞工",
       "penalty": "違反規定經地方勞工行政主管機關查證屬實，依《勞動基準法》第43條、第79條，可處新臺幣2萬元以上100萬元以下罰鍰",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "sick-leave-2023-06-30-1",
@@ -609,7 +645,9 @@
       "appliesTo": "（已失效）原適用於2020至2023年間，因居家隔離／檢疫、或須照顧受隔離家人而請假的勞工與雇主",
       "penalty": "特別條例已廢止，現已無明文罰則；失效前若雇主違規視為曠職或扣全勤獎金，可能構成《勞動基準法》相關規定之違反",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "suspended",
+      "hrImpact": "fyi"
     },
     {
       "id": "migrant-worker-pension-2026-04-01-1",
@@ -627,7 +665,9 @@
       ],
       "appliesTo": "聘僱同一雇主滿10年以上之藍領移工",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "migrant-worker-pension-2022-04-30-1",
@@ -649,7 +689,9 @@
       ],
       "appliesTo": "已由雇主依「移工留才久用方案」申請轉任為「中階技術人力」的移工（原為藍領移工），且尚未取得台灣永久居留身分",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "applicant-data-retention-2012-10-01-1",
@@ -670,7 +712,9 @@
         }
       ],
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "employer-nhi-premium-2021-01-01-1",
@@ -692,7 +736,9 @@
       ],
       "appliesTo": "所有依法應計算並繳納雇主補充保費之投保單位",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "employer-nhi-premium-2025-11-06-1",
@@ -714,7 +760,9 @@
       ],
       "appliesTo": "研議方案完成修法後，預計影響需代扣繳補充保費之投保單位（含發放獎金之雇主）與所得人",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "study",
+      "hrImpact": "watch"
     },
     {
       "id": "annual-leave-2023-05-25-1",
@@ -741,7 +789,9 @@
       "appliesTo": "所有依勞動基準法僱用勞工之事業單位（尤其目前有「特休折現／買斷」慣例或約定的公司）",
       "penalty": "依勞動基準法第79條，違反特別休假相關規定處新臺幣2萬元以上、100萬元以下罰鍰，主管機關並得公布事業單位或雇主名稱、負責人姓名；本案台北市政府勞動局原處罰鍰為2萬元，經最高行政法院判決維持。",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "fyi"
     },
     {
       "id": "annual-leave-2021-05-20-1",
@@ -764,7 +814,9 @@
       "appliesTo": "所有依勞動基準法僱用勞工之事業單位（尤其常以「人力不足」「業務需求」等籠統理由拒絕或要求員工改期特休申請的公司）",
       "penalty": "本案桃園市政府原裁罰新臺幣2萬元（依勞動基準法第79條，違反同法第38條第2項特休排定權相關規定，法定罰鍰範圍為2萬元以上、100萬元以下，並得公布事業單位及負責人姓名）；但因案件經最高行政法院發回更審，原罰鍰是否最終維持，查證當下尚無法確認後續結果",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "fyi"
     },
     {
       "id": "severance-pay-2024-08-02-1",
@@ -786,7 +838,9 @@
       ],
       "appliesTo": "已依法提繳積欠工資墊償基金之雇主；雇主歇業、清算或宣告破產時仍有資遣費、退休金或工資未受清償之勞工",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "prenotice",
+      "hrImpact": "watch"
     },
     {
       "id": "severance-pay-2025-11-17-1",
@@ -813,7 +867,9 @@
       "appliesTo": "計畫遷廠、遷址或進行組織調動的雇主",
       "penalty": "新北市勞工局表示，雇主若違法調動（未提供必要協助或損及勞動條件）又拒發資遣費，可依勞工退休金條例第45-1條處新臺幣30萬元以上、150萬元以下罰鍰；此為勞工局說明的裁罰依據上限，本案截至查證時尚未有最終裁罰結果",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "fyi"
     },
     {
       "id": "overtime-pay-2022-08-19-1",
@@ -836,7 +892,9 @@
       "appliesTo": "公營事業國會聯絡人員、臺北市政府新聞處隨行攝影技工及採訪車駕駛（已排除）；各縣市抽水站操作人員、事業單位首長主管及配車駕駛之委外／派遣人員（自2023年起排除）",
       "penalty": "本身非罰則公告，但若對已不再適用84-1的工作者仍未依一般規定給付加班費，可依勞基法相關規定處新臺幣2萬元以上100萬元以下罰鍰",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "overtime-pay-2023-01-17-1",
@@ -859,7 +917,9 @@
       "appliesTo": "台北市轄內有實施居家工作／遠距工作制度的事業單位（其他縣市雇主可參考但非強制適用）",
       "penalty": "本指導原則不具強制力、無罰則；但若下班聯繫已構成實質加班卻未給付加班費，仍可能違反勞基法一般加班費規定，可處新臺幣2萬元以上100萬元以下罰鍰",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "overtime-pay-2026-03-13-1",
@@ -878,7 +938,9 @@
       "appliesTo": "所有雇主，尤其薪資結構有各種加給、獎金項目的公司（本案為國營事業台電，但法院見解對一般民營雇主同樣適用）",
       "penalty": "桃園市政府勞動局依勞基法相關規定裁罰新臺幣2萬元；情節重大或累犯，罰鍰上限可到100萬元",
       "isNew": false,
-      "addedAt": "2026-07-16"
+      "addedAt": "2026-07-16",
+      "statusDetail": "effective",
+      "hrImpact": "fyi"
     },
     {
       "id": "labor-insurance-benefits-2026-01-01-1",
@@ -901,7 +963,9 @@
       ],
       "appliesTo": "2026年1月1日後出生之本國籍新生兒的女性被保險人（含與本國人結婚之外籍配偶）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "labor-pension-contribution-2026-01-01-1",
@@ -920,7 +984,9 @@
       ],
       "appliesTo": "全體適用勞退新制之受雇勞工及其雇主",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "labor-pension-contribution-2026-08-01-1",
@@ -948,7 +1014,9 @@
       "appliesTo": "全體適用勞退新制之雇主與勞工",
       "penalty": "雇主拒絕受理自願提繳或未依規定送件：按日加徵應提繳金額3%滯納金，最高至應提繳金額之1倍；未辦理申報提繳等義務經限期未改善者，處新臺幣2萬元以上10萬元以下罰鍰，並按月處罰至改正為止",
       "isNew": false,
-      "addedAt": "2026-08-13"
+      "addedAt": "2026-08-13",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "pension-eligibility-2026-01-01-1",
@@ -971,7 +1039,9 @@
       ],
       "appliesTo": "民國51年次（1962年）以後出生、參加勞保之勞工",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "pension-eligibility-2026-03-27-1",
@@ -994,7 +1064,9 @@
       ],
       "appliesTo": "已符合勞退新制月退休金請領資格（年滿60歲、提繳年資滿15年以上）並選擇月領之勞工",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "working-hours-2018-03-01-1",
@@ -1018,7 +1090,9 @@
       "appliesTo": "一般適用勞基法之勞工（部分行業依中央目的事業主管機關公告可能有特殊工時制度，不在此列）",
       "penalty": "違反工時相關規定，依勞基法第79條，罰鍰新臺幣2萬元以上、100萬元以下（實際金額依個案裁罰基準而定）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "working-hours-2018-03-01-2",
@@ -1042,7 +1116,9 @@
       "appliesTo": "輪班制勞工（依實質工作型態認定，非僅以公司名義區分）",
       "penalty": "違反輪班換班間距規定，依勞基法第79條，罰鍰新臺幣2萬元以上、100萬元以下",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "occupational-injury-insurance-2022-05-01-1",
@@ -1065,7 +1141,9 @@
       ],
       "appliesTo": "受僱於登記有案事業單位的所有勞工（不限公司規模）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "occupational-injury-insurance-2026-01-01-1",
@@ -1088,7 +1166,9 @@
       ],
       "appliesTo": "僱用50人以上、適用實績費率之投保單位（薪資分級表則適用全體投保單位）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "occupational-injury-insurance-2026-01-01-2",
@@ -1107,7 +1187,9 @@
       ],
       "appliesTo": "遭遇職業傷病之勞工及其家屬",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "labor-contract-probation-1997-09-03-1",
@@ -1126,7 +1208,9 @@
       ],
       "appliesTo": "與雇主約定有試用期之勞工",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "labor-contract-probation-2022-08-01-1",
@@ -1145,7 +1229,9 @@
       ],
       "appliesTo": "與雇主約定有試用期之勞工及雇主雙方",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "employment-discrimination-2018-11-30-1",
@@ -1169,7 +1255,9 @@
       "appliesTo": "所有雇主（招募與在職員工管理階段皆適用）",
       "penalty": "新臺幣30萬元以上、150萬元以下罰鍰；經處罰後會公布負責人姓名，逾期未改善按次處罰",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "employment-discrimination-2024-07-12-1",
@@ -1188,7 +1276,9 @@
       ],
       "appliesTo": "所有雇主，尤其資遣／裁員規劃階段",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "employment-discrimination-2026-03-06-1",
@@ -1207,7 +1297,9 @@
       ],
       "appliesTo": "30人以上規模企業（性騷擾防治申訴辦法法定義務對象）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "mass-layoff-2015-07-01-1",
@@ -1227,7 +1319,9 @@
       "appliesTo": "符合解僱人數門檻的事業單位（依規模分級適用）",
       "penalty": "未依規定通報：新臺幣10萬元以上50萬元以下罰鍰，得按日連續處罰",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "mass-layoff-2026-05-08-1",
@@ -1250,7 +1344,9 @@
       ],
       "appliesTo": "大型製造業廠場（本案為500人以上規模廠場適用最嚴格門檻的實例）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "fyi"
     },
     {
       "id": "involuntary-resignation-2022-01-01-1",
@@ -1273,7 +1369,9 @@
       ],
       "appliesTo": "就業保險投保勞工（一般受僱勞工）",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "involuntary-resignation-2023-01-18-1",
@@ -1292,7 +1390,9 @@
       ],
       "appliesTo": "非自願離職且投保年資合計滿1年以上的就業保險被保險人",
       "isNew": false,
-      "addedAt": "2026-07-17"
+      "addedAt": "2026-07-17",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "labor-pension-contribution-2026-07-17-1",
@@ -1321,7 +1421,9 @@
       ],
       "appliesTo": "純舊制勞工（94年7月1日前已受僱、選擇繼續適用勞基法舊制退休金、目前仍服務於同一事業單位者，約11.5萬人）",
       "isNew": false,
-      "addedAt": "2026-07-20"
+      "addedAt": "2026-07-20",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "mass-layoff-2026-05-25-1",
@@ -1349,7 +1451,9 @@
       "appliesTo": "適用大量解僱勞工保護法第5條協商程序",
       "penalty": "目前查無新竹縣政府對普利司通開罰的報導；縣府立場是「已完成法定通報即屬合法」，但勞團對此持不同意見，屬於法律見解爭議，非確定裁罰結果",
       "isNew": false,
-      "addedAt": "2026-07-20"
+      "addedAt": "2026-07-20",
+      "statusDetail": "effective",
+      "hrImpact": "fyi"
     },
     {
       "id": "contractor-classification-2019-11-19-1",
@@ -1372,7 +1476,9 @@
       ],
       "appliesTo": "以承攬、委任等非典型契約名義提供勞務的工作者及聘僱事業單位",
       "isNew": false,
-      "addedAt": "2026-07-21"
+      "addedAt": "2026-07-21",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "contractor-classification-2022-11-17-1",
@@ -1391,7 +1497,9 @@
       ],
       "appliesTo": "以「承攬」等契約名義提供勞務、但實際受公司指揮監督之工作者（如駕駛、外送員等）",
       "isNew": false,
-      "addedAt": "2026-07-21"
+      "addedAt": "2026-07-21",
+      "statusDetail": "effective",
+      "hrImpact": "fyi"
     },
     {
       "id": "parental-leave-2026-07-29-1",
@@ -1415,7 +1523,9 @@
       ],
       "appliesTo": "全體受僱勞工（修法通過後適用）",
       "isNew": false,
-      "addedAt": "2026-08-13"
+      "addedAt": "2026-08-13",
+      "statusDetail": "review",
+      "hrImpact": "watch"
     },
     {
       "id": "minimum-wage-2026-07-27-1",
@@ -1443,7 +1553,9 @@
       ],
       "appliesTo": "全體適用基本工資規定之勞工",
       "isNew": false,
-      "addedAt": "2026-08-13"
+      "addedAt": "2026-08-13",
+      "statusDetail": "study",
+      "hrImpact": "watch"
     },
     {
       "id": "involuntary-resignation-2026-08-01-1",
@@ -1468,7 +1580,9 @@
       ],
       "appliesTo": "非自願離職勞工，其子女就讀國內高中職或大專院校者",
       "isNew": false,
-      "addedAt": "2026-08-13"
+      "addedAt": "2026-08-13",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "contractor-classification-2026-07-21-1",
@@ -1498,7 +1612,9 @@
       "appliesTo": "外送平臺業者與外送員（不論其與平臺之法律關係是承攬、委任或其他名義）",
       "penalty": "依違反條款不同，裁罰級距約新臺幣2萬元至50萬元（例如違反報酬明確性、片面變更契約等規定處10萬至50萬元；規避主管機關監督檢查處3萬至15萬元；未依規定通報職災處3萬至30萬元；違反報酬給付規定處2萬至10萬元），各條款罰則不同，實際請以法規正式條文為準",
       "isNew": false,
-      "addedAt": "2026-08-13"
+      "addedAt": "2026-08-13",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "elderly-nhi-premium-subsidy-national-1",
@@ -1541,7 +1657,9 @@
       ],
       "appliesTo": "全體65歲以上老人（依實際身分別與設籍縣市規定，補助資格與金額各不相同）",
       "isNew": false,
-      "addedAt": "2026-08-17"
+      "addedAt": "2026-08-17",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-taipei-1",
@@ -1568,7 +1686,9 @@
       ],
       "appliesTo": "設籍並實際居住台北市滿1年、年滿65歲（原住民55歲）且所得稅率未達20%或未達申報標準的老人；或65-69歲中低收入老人",
       "isNew": false,
-      "addedAt": "2026-08-17"
+      "addedAt": "2026-08-17",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-tainan-1",
@@ -1599,7 +1719,9 @@
       ],
       "appliesTo": "設籍台南市滿1年、65歲以上之老人或55歲以上原住民老人，且最近一年綜合所得稅率未超過5%（未排富）",
       "isNew": false,
-      "addedAt": "2026-08-17"
+      "addedAt": "2026-08-17",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-kaohsiung-1",
@@ -1626,7 +1748,9 @@
       ],
       "appliesTo": "設籍高雄市滿1年以上、國內居住滿183天，且符合中低收入老人或所得稅率5%以下（65歲以上）等資格門檻的老人",
       "isNew": false,
-      "addedAt": "2026-08-17"
+      "addedAt": "2026-08-17",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-new-taipei-1",
@@ -1653,7 +1777,9 @@
       ],
       "appliesTo": "設籍新北市滿一年以上、年滿65歲之長者（含55-64歲原住民），另有專屬「中低收入老人」健保費補助對象",
       "isNew": false,
-      "addedAt": "2026-08-17"
+      "addedAt": "2026-08-17",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-taoyuan-1",
@@ -1680,7 +1806,9 @@
       ],
       "appliesTo": "設籍並實際居住桃園市、符合資格的老人",
       "isNew": false,
-      "addedAt": "2026-08-17"
+      "addedAt": "2026-08-17",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-taichung-1",
@@ -1707,7 +1835,9 @@
       ],
       "appliesTo": "設籍台中市滿一年以上，年滿65歲（原住民55歲）以上、綜合所得稅率5%以下（或子女申報扶養且稅率5%以下）的一般老人，以及領有中低收入老人生活津貼或列冊中低收入戶的長者",
       "isNew": false,
-      "addedAt": "2026-08-17"
+      "addedAt": "2026-08-17",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "minimum-wage-2026-09-24-1",
@@ -1737,7 +1867,11 @@
       "appliesTo": "全體適用勞動基準法之勞工（月薪制、時薪制，含本國籍與外籍勞工）",
       "penalty": "雇主若未依公告後之新標準給付工資，依勞基法可處新臺幣2萬元以上100萬元以下罰鍰",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "gazetted",
+      "hrImpact": "watch",
+      "summaryShort": "2027年基本工資已正式公告：月薪30,900元、時薪205元，明年1/1生效。",
+      "followUp": "年底前留意勞健保與勞退月提繳工資分級表是否配合調整。"
     },
     {
       "id": "labor-pension-contribution-2026-09-01-1",
@@ -1770,7 +1904,10 @@
       ],
       "appliesTo": "自營作業者（職業工會加保者、自由工作者、自營攤商等無雇主之勞退自願提繳者）",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "effective",
+      "hrImpact": "action",
+      "summaryShort": "自營作業者自願提繳勞退金已可線上申辦，不用再臨櫃或寄紙本。"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-04-01-1",
@@ -1793,7 +1930,9 @@
       ],
       "appliesTo": "設籍南投縣滿1年、年滿65歲以上長者（原住民55歲以上）",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-06-01-1",
@@ -1816,7 +1955,9 @@
       ],
       "appliesTo": "設籍花蓮縣滿1年、年滿65歲以上長者",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-07-01-1",
@@ -1839,7 +1980,9 @@
       ],
       "appliesTo": "設籍苗栗縣、年滿80歲以上長者或年滿70歲以上原住民",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-07-01-2",
@@ -1862,7 +2005,9 @@
       ],
       "appliesTo": "設籍嘉義市滿6個月、年滿80歲以上長者",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-07-01-3",
@@ -1889,7 +2034,9 @@
       ],
       "appliesTo": "設籍屏東縣、65至69歲中低收入戶老人（現行階段）；2027年起擴大為65歲以上全體長者（不分所得）",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "policy",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-10-01-1",
@@ -1912,7 +2059,9 @@
       ],
       "appliesTo": "（規劃中，細節未定）預計為設籍新竹市、65歲以上長者及55歲以上原住民",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "study",
+      "hrImpact": "fyi"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2027-01-01-1",
@@ -1935,7 +2084,9 @@
       ],
       "appliesTo": "（規劃中，細節未定）現行僅中低收入等特定身分長者",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "study",
+      "hrImpact": "fyi"
     },
     {
       "id": "workplace-bullying-2026-08-15-1",
@@ -1955,7 +2106,9 @@
       "appliesTo": "10人以上之事業單位（適用職場霸凌防治專章通報義務者）",
       "penalty": "首次違規限期改善，屆期未改善或再犯可處新臺幣3萬元至75萬元罰鍰（此為雇主未依規定通報／處理之罰則，非霸凌行為本身之罰則）",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "mass-layoff-2026-09-23-1",
@@ -1979,7 +2132,9 @@
       "appliesTo": "適用大量解僱勞工保護法所定通報門檻之事業單位（本案為上櫃公司鑫創科技）",
       "penalty": "本則屬個案事件，非新修法；依現行大量解僱勞工保護法第17、18條，雇主未依限通知主管機關或未進行協商，可處新臺幣10萬元以上50萬元以下罰鍰，屆期未改善者按日／按次連續處罰",
       "isNew": false,
-      "addedAt": "2026-09-29"
+      "addedAt": "2026-09-29",
+      "statusDetail": "effective",
+      "hrImpact": "action"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-09-15-1",
@@ -2004,7 +2159,10 @@
       ],
       "appliesTo": "設籍嘉義市滿6個月、年滿65歲以上長者",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "policy",
+      "hrImpact": "fyi",
+      "summaryShort": "嘉義市老人健保補助已確認10/1上路，65歲以上免申請、市府自動代繳。"
     },
     {
       "id": "marriage-leave-2026-09-17-1",
@@ -2033,7 +2191,10 @@
       ],
       "appliesTo": "適用勞動基準法之勞工（不論國籍）",
       "isNew": false,
-      "addedAt": "2026-10-15"
+      "addedAt": "2026-10-15",
+      "statusDetail": "effective",
+      "hrImpact": "action",
+      "summaryShort": "婚假10/1起確定14天，多出的6天薪水雇主先付、政府全額補助。"
     },
     {
       "id": "parental-leave-2026-10-08-1",
@@ -2057,7 +2218,10 @@
       ],
       "appliesTo": "適用就業保險之受僱勞工",
       "isNew": false,
-      "addedAt": "2026-10-15"
+      "addedAt": "2026-10-15",
+      "statusDetail": "review",
+      "hrImpact": "watch",
+      "summaryShort": "育嬰留停延長草案仍卡在協商，適用年齡8歲與12歲未有共識，尚未三讀。"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-10-01-2",
@@ -2078,7 +2242,10 @@
       ],
       "appliesTo": "設籍嘉義縣、65至69歲、具中低收入戶身分之長者",
       "isNew": false,
-      "addedAt": "2026-10-15"
+      "addedAt": "2026-10-15",
+      "statusDetail": "policy",
+      "hrImpact": "fyi",
+      "summaryShort": "嘉義縣新增65至69歲中低收入戶健保補助，10/1起縣府全額負擔。"
     },
     {
       "id": "workplace-bullying-2026-10-13-1",
@@ -2098,7 +2265,10 @@
       "appliesTo": "一般雇主與企業主管（中高階主管亦適用）",
       "penalty": "民事僱傭關係爭議（非行政裁罰），雇主解僱經法院確認合法",
       "isNew": false,
-      "addedAt": "2026-10-15"
+      "addedAt": "2026-10-15",
+      "statusDetail": "effective",
+      "hrImpact": "fyi",
+      "summaryShort": "六福村主管霸凌下屬被解僱提告，二審法院判公司解僱合法。"
     },
     {
       "id": "sexual-harassment-2026-10-13-1",
@@ -2118,7 +2288,10 @@
       "appliesTo": "航空業及一般職場主管對下屬之權勢性騷擾",
       "penalty": "民事賠償119萬730元（非行政罰鍰，判決仍可上訴）",
       "isNew": false,
-      "addedAt": "2026-10-15"
+      "addedAt": "2026-10-15",
+      "statusDetail": "effective",
+      "hrImpact": "fyi",
+      "summaryShort": "華航座艙長權勢性騷擾空服員，台北地院判賠119萬元。"
     },
     {
       "id": "sexual-harassment-2026-10-16-1",
@@ -2138,7 +2311,10 @@
       ],
       "appliesTo": "醫療院所（醫院、診所）及其聘僱之醫事人員（醫師、護理師、藥師等各類醫事人員法所定人員）",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "effective",
+      "hrImpact": "action",
+      "summaryShort": "勞動部與衛福部建立跨部會通報機制，防範醫事人員職場性騷擾。"
     },
     {
       "id": "employment-discrimination-2026-10-02-1",
@@ -2159,7 +2335,10 @@
       "appliesTo": "一般雇主刊登徵才廣告",
       "penalty": "最重可處150萬元罰鍰並公布名稱（截至報導時尚在調查中，未見正式裁罰結果）",
       "isNew": false,
-      "addedAt": "2026-10-15"
+      "addedAt": "2026-10-15",
+      "statusDetail": "study",
+      "hrImpact": "watch",
+      "summaryShort": "宜蘭咖啡廳徵才涉性別外貌年齡三重歧視，縣府調查中，最重可罰150萬。"
     },
     {
       "id": "workplace-bullying-2026-10-27-1",
@@ -2183,7 +2362,10 @@
       "appliesTo": "公務機關、一般雇主",
       "penalty": "本案為人事懲處（免現職、調任），未涉罰鍰；依現行職安法職場霸凌專章，一般企業雇主未盡防治責任最高可處300萬元罰鍰，最高負責人本人被認定為霸凌行為人另可處最高100萬元罰鍰",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "effective",
+      "hrImpact": "fyi",
+      "summaryShort": "外交部查證駐日內瓦處長霸凌屬實，已將人調離原職。"
     },
     {
       "id": "workplace-bullying-2026-11-02-1",
@@ -2202,7 +2384,10 @@
       ],
       "appliesTo": "公務機關、一般雇主與勞工",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "effective",
+      "hrImpact": "fyi",
+      "summaryShort": "文化部秘書控主管霸凌求國賠，法院查無辱罵證據，判敗訴。"
     },
     {
       "id": "parental-leave-2026-11-02-1",
@@ -2226,7 +2411,10 @@
       ],
       "appliesTo": "草案：育有未滿9歲（勞動部版本）子女之受僱父母，最終適用年齡仍待朝野定案",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "review",
+      "hrImpact": "watch",
+      "summaryShort": "育嬰留停協商持續，勞動部澄清支持放寬到9歲，民眾黨仍要12歲。"
     },
     {
       "id": "labor-insurance-benefits-2026-10-30-1",
@@ -2245,7 +2433,10 @@
       ],
       "appliesTo": "勞工保險加保有效期間內之勞工",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "effective",
+      "hrImpact": "action",
+      "summaryShort": "罹癌切除器官者出院即可申請勞保失能給付，不用再等6個月。"
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-10-16-1",
@@ -2269,7 +2460,10 @@
       ],
       "appliesTo": "全國65歲以上長者（含法定扶養義務人所得合併認定），具體辦法待中央主管機關另訂",
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "passed",
+      "hrImpact": "fyi",
+      "summaryShort": "立院三讀通過65歲以上健保費中央全額補助，行政院評估是否反對。"
     },
     {
       "id": "sexual-harassment-2026-10-30-1",
@@ -2287,7 +2481,10 @@
         }
       ],
       "isNew": false,
-      "addedAt": "2026-11-03"
+      "addedAt": "2026-11-03",
+      "statusDetail": "effective",
+      "hrImpact": "fyi",
+      "summaryShort": "法院判例：承攬關係非僱傭，性平法不適用，只能告加害人個人。"
     },
     {
       "id": "parental-leave-2026-11-05-1",
@@ -2305,7 +2502,17 @@
         }
       ],
       "isNew": true,
-      "addedAt": "2026-11-09"
+      "addedAt": "2026-11-09",
+      "statusDetail": "review",
+      "hrImpact": "watch",
+      "summaryShort": "民眾黨提新版本：留停上限延到3年，第3年無薪，仍在協商中。",
+      "followUp": "民眾黨新版本與行政院版本如何整合、是否排入下次黨團協商。",
+      "relatedIds": [
+        "parental-leave-2026-05-28-1",
+        "parental-leave-2026-07-29-1",
+        "parental-leave-2026-10-08-1",
+        "parental-leave-2026-11-02-1"
+      ]
     },
     {
       "id": "elderly-nhi-premium-subsidy-2026-11-06-1",
@@ -2316,7 +2523,6 @@
       "summary": "立法院10月16日三讀通過《老人福利法》第22條修正案，原本規劃讓65歲以上、綜合所得稅稅率未達20%的長者健保費改由中央全額補助。外界原本預期行政院會在期限前提出「覆議」（退回立法院重新表決），但行政院長卓榮泰11月6日改用另一種憲法賦予的方式——「不予副署」，等於暫不簽署公布這條法律。行政院提出三個理由：①修法把原本保障弱勢長者的醫療部分負擔補助法源刪掉了，可能讓約6.6萬名中低收入長者的既有保障出現缺口；②估計每年要多花約400億元，而且沒有排富，對一般年輕世代不盡公平；③這個修法是立委個別提案，沒有跟行政院事先討論，行政院認為侵害了政府的施政與預算編列權限。目前這條法律還沒有正式公布生效，行政院表示後續會依憲法規定處理，外界預期爭議可能會一路打到大法官釋憲才會有最終結果。",
       "employerNotes": "這條法律目前還沒有生效，公司不用因此調整任何長者員工的健保費代扣或相關福利；但建議留意後續發展，若將來真的立法通過全國統一補助，各縣市原本各自的補助方案（本分類其他項目）可能會跟著調整或取消。",
       "employeeNotes": "65歲以上的長者，健保費補助目前還是要看自己戶籍所在的縣市有沒有補助方案（本分類其他項目有各縣市整理），不能現在就主張「全國統一全額補助」，因為這條法律還沒有正式生效。建議持續關注後續進度，有最新結果會再更新。",
-      "announcedAt": "2026-10-16",
       "sources": [
         {
           "label": "NowNews：行政院不副署老人福利法修正案",
@@ -2328,7 +2534,14 @@
         }
       ],
       "isNew": true,
-      "addedAt": "2026-11-09"
+      "addedAt": "2026-11-09",
+      "statusDetail": "suspended",
+      "hrImpact": "fyi",
+      "summaryShort": "行政院11/6不予副署，老人健保全額補助修法暫時卡關。",
+      "followUp": "行政院後續依憲法規定如何處理、是否進入大法官釋憲程序。",
+      "relatedIds": [
+        "elderly-nhi-premium-subsidy-2026-10-16-1"
+      ]
     }
   ],
   "scenarios": [

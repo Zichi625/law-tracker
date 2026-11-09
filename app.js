@@ -589,134 +589,312 @@ function renderGuidePage(data) {
   renderGuideFlow(guide, {}, 0);
 }
 
-const STATUS_LABELS = {
-  effective: '● 已生效',
-  announced: '◷ 已公告未生效',
-  draft: '△ 草案研議中',
-  expired: '✕ 已失效／已廢止'
+const STATUS_DETAIL_LABELS = {
+  study: '研議中',
+  prenotice: '草案預告',
+  review: '立法院審議中',
+  passed: '已三讀，尚未公布',
+  gazetted: '已公布，尚未施行',
+  effective: '已施行',
+  suspended: '暫緩／未生效',
+  policy: '政策公告'
 };
 
-function createStatusBadge(status) {
-  const label = STATUS_LABELS[status];
+// 舊版4值 status 的備援對照：新資料請直接填 statusDetail，這組只是讓還沒補欄位的資料不會顯示錯誤
+const STATUS_DETAIL_FALLBACK = { effective: 'effective', announced: 'gazetted', draft: 'review', expired: 'suspended' };
+
+// 這幾種狀態代表「法規還沒正式生效」，用來判斷「尚未生效」篩選與預設的持續關注分級
+const PENDING_STATUS_DETAILS = ['study', 'prenotice', 'review', 'passed', 'gazetted', 'suspended'];
+
+function getStatusDetail(item) {
+  return item.statusDetail || STATUS_DETAIL_FALLBACK[item.status] || 'study';
+}
+
+const IMPACT_LABELS = { action: '需要處理', watch: '持續關注', fyi: '僅供參考' };
+
+function getHrImpact(item, statusDetail) {
+  if (item.hrImpact) return item.hrImpact;
+  return PENDING_STATUS_DETAILS.includes(statusDetail) ? 'watch' : 'action';
+}
+
+function createStatusBadge(statusDetail) {
+  const label = STATUS_DETAIL_LABELS[statusDetail];
   if (!label) return null;
   const badge = document.createElement('span');
-  badge.className = `status-badge status-badge--${status}`;
+  badge.className = `status-badge status-badge--${statusDetail}`;
   badge.textContent = label;
   return badge;
 }
 
-function createItemCard(item, category, identity = 'all') {
+function truncateText(text, maxLen) {
+  if (!text) return '';
+  if (text.length <= maxLen) return text;
+  return `${text.slice(0, maxLen).trim()}…`;
+}
+
+function getSummaryShort(item) {
+  return item.summaryShort || truncateText(item.summary, 92);
+}
+
+function getImpactLine(item, identity) {
+  const primary = identity === 'employee' ? item.employeeNotes : item.employerNotes;
+  const fallback = identity === 'employee' ? item.employerNotes : item.employeeNotes;
+  const text = primary || fallback;
+  return text ? truncateText(text, 58) : '目前無新增企業法定作業義務，僅供參考。';
+}
+
+function getSourceType(url) {
+  if (/ly\.gov\.tw/i.test(url)) return 'legislative';
+  if (/\.gov\.tw/i.test(url)) return 'official';
+  return 'news';
+}
+
+const SOURCE_TYPE_GROUPS = [
+  ['official', '官方法規與主管機關公告'],
+  ['legislative', '立法院審議進度'],
+  ['news', '新聞報導（補充參考，非正式法律效力證明）']
+];
+
+function createGroupedSourcesSection(sources) {
+  const section = document.createElement('div');
+  section.className = 'detail-section';
+  const heading = document.createElement('div');
+  heading.className = 'detail-heading';
+  heading.textContent = '法規與來源';
+  section.appendChild(heading);
+
+  const buckets = { official: [], legislative: [], news: [] };
+  (sources || []).forEach(s => buckets[getSourceType(s.url)].push(s));
+
+  SOURCE_TYPE_GROUPS.forEach(([key, label]) => {
+    if (!buckets[key].length) return;
+    const group = document.createElement('div');
+    group.className = 'source-group';
+    const groupLabel = document.createElement('div');
+    groupLabel.className = 'source-group-label';
+    groupLabel.textContent = label;
+    group.appendChild(groupLabel);
+    buckets[key].forEach(s => {
+      const a = document.createElement('a');
+      a.className = 'source-link';
+      a.href = s.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = s.label;
+      group.appendChild(a);
+    });
+    section.appendChild(group);
+  });
+
+  return section;
+}
+
+function createDetailSection(headingText, bodyText) {
+  if (!bodyText) return null;
+  const section = document.createElement('div');
+  section.className = 'detail-section';
+  const heading = document.createElement('div');
+  heading.className = 'detail-heading';
+  heading.textContent = headingText;
+  section.appendChild(heading);
+  const body = document.createElement('p');
+  body.className = 'detail-body';
+  body.textContent = bodyText;
+  section.appendChild(body);
+  return section;
+}
+
+function createDatesSection(item, statusDetail) {
+  const section = document.createElement('div');
+  section.className = 'detail-section';
+  const heading = document.createElement('div');
+  heading.className = 'detail-heading';
+  heading.textContent = '時程';
+  section.appendChild(heading);
+
+  const grid = document.createElement('dl');
+  grid.className = 'timeline-grid';
+  const effectiveLabel = (statusDetail === 'effective' || statusDetail === 'policy') ? '施行日期' : '預定施行日期';
+  const rows = [
+    ['事件／審議日期', item.date],
+    ['公布日期', item.announcedAt],
+    [effectiveLabel, item.effectiveAt],
+    ['本站查核日期', item.addedAt]
+  ];
+  rows.forEach(([label, value]) => {
+    const dt = document.createElement('dt');
+    dt.textContent = label;
+    grid.appendChild(dt);
+    const dd = document.createElement('dd');
+    if (value) {
+      dd.textContent = value;
+    } else {
+      dd.textContent = '尚未確定';
+      dd.classList.add('unknown');
+    }
+    grid.appendChild(dd);
+  });
+  section.appendChild(grid);
+  return section;
+}
+
+function createHistorySection(item, allItemsById) {
+  if (!item.relatedIds || !item.relatedIds.length) return null;
+  const stages = [...item.relatedIds, item.id]
+    .map(id => allItemsById.get(id))
+    .filter(Boolean)
+    .sort((a, b) => a.date.localeCompare(b.date));
+  if (stages.length < 2) return null;
+
+  const section = document.createElement('div');
+  section.className = 'detail-section';
+  const heading = document.createElement('div');
+  heading.className = 'detail-heading';
+  heading.textContent = '歷程追蹤';
+  section.appendChild(heading);
+
+  const list = document.createElement('div');
+  list.className = 'history-list';
+  stages.forEach(stage => {
+    const row = document.createElement('div');
+    row.className = 'history-item';
+    const dot = document.createElement('span');
+    dot.className = 'history-dot';
+    row.appendChild(dot);
+    const body = document.createElement('span');
+    body.className = 'history-body';
+    const dateEl = document.createElement('span');
+    dateEl.className = 'history-date';
+    dateEl.textContent = stage.date;
+    body.appendChild(dateEl);
+    body.appendChild(document.createTextNode(stage.summaryShort || truncateText(stage.summary, 60)));
+    row.appendChild(body);
+    list.appendChild(row);
+  });
+  section.appendChild(list);
+  return section;
+}
+
+function createItemCard(item, category, identity = 'all', allItemsById = new Map()) {
+  const statusDetail = getStatusDetail(item);
+  const hrImpact = getHrImpact(item, statusDetail);
+
   const card = document.createElement('article');
   card.className = 'item-card';
 
-  const titleRow = document.createElement('div');
-  titleRow.className = 'item-title-row';
+  const topRow = document.createElement('div');
+  topRow.className = 'item-top-row';
 
-  const title = document.createElement('h3');
-  title.className = 'item-title';
-  title.textContent = item.title;
-  titleRow.appendChild(title);
-
-  const statusBadge = createStatusBadge(item.status);
-  if (statusBadge) {
-    titleRow.appendChild(statusBadge);
+  if (category) {
+    const groupTag = document.createElement('span');
+    groupTag.className = 'tag-group';
+    groupTag.textContent = category.name;
+    const visuals = BIG_GROUP_VISUALS[category.bigGroupId];
+    if (visuals) groupTag.style.background = visuals.color;
+    topRow.appendChild(groupTag);
   }
+
+  const statusBadge = createStatusBadge(statusDetail);
+  if (statusBadge) topRow.appendChild(statusBadge);
 
   if (item.isNew) {
     const badge = document.createElement('span');
     badge.className = 'new-badge';
     badge.textContent = 'NEW';
-    titleRow.appendChild(badge);
+    topRow.appendChild(badge);
   }
 
-  card.appendChild(titleRow);
+  const dateTag = document.createElement('span');
+  dateTag.className = 'tag-date';
+  dateTag.textContent = `更新 ${item.addedAt}`;
+  topRow.appendChild(dateTag);
 
-  const meta = document.createElement('p');
-  meta.className = 'item-meta';
-  meta.textContent = category ? `${category.name}｜${item.date}` : item.date;
-  card.appendChild(meta);
+  card.appendChild(topRow);
 
-  if (item.announcedAt || item.effectiveAt) {
-    const dateDetail = document.createElement('div');
-    dateDetail.className = 'item-date-detail';
-
-    if (item.announcedAt) {
-      const announced = document.createElement('p');
-      announced.textContent = `公布：${item.announcedAt}`;
-      dateDetail.appendChild(announced);
-    }
-
-    if (item.effectiveAt) {
-      const effective = document.createElement('p');
-      effective.textContent = `施行：${item.effectiveAt}`;
-      dateDetail.appendChild(effective);
-    }
-
-    const verified = document.createElement('p');
-    verified.textContent = `本站查核：${item.addedAt}`;
-    dateDetail.appendChild(verified);
-
-    card.appendChild(dateDetail);
-  }
+  const title = document.createElement('h3');
+  title.className = 'item-title';
+  title.textContent = item.title;
+  card.appendChild(title);
 
   const summary = document.createElement('p');
   summary.className = 'item-summary';
-  summary.textContent = item.summary;
+  summary.textContent = getSummaryShort(item);
   card.appendChild(summary);
 
-  function buildEmployerBlock() {
-    const employerBlock = document.createElement('div');
-    employerBlock.className = 'notes-block notes-block--employer';
-    const employerTag = document.createElement('span');
-    employerTag.className = 'notes-tag';
-    employerTag.textContent = '雇主注意';
-    const employerText = document.createElement('p');
-    employerText.className = 'notes-text';
-    employerText.textContent = item.employerNotes;
-    employerBlock.appendChild(employerTag);
-    employerBlock.appendChild(employerText);
-    return employerBlock;
-  }
+  const impactRow = document.createElement('div');
+  impactRow.className = 'impact-row';
+  const impactPill = document.createElement('span');
+  impactPill.className = `impact-pill impact-pill--${hrImpact}`;
+  impactPill.textContent = IMPACT_LABELS[hrImpact];
+  impactRow.appendChild(impactPill);
+  const impactText = document.createElement('span');
+  impactText.className = 'impact-text';
+  impactText.textContent = getImpactLine(item, identity);
+  impactRow.appendChild(impactText);
+  card.appendChild(impactRow);
 
-  function buildEmployeeBlock() {
-    if (!item.employeeNotes) return null;
-    const employeeBlock = document.createElement('div');
-    employeeBlock.className = 'notes-block notes-block--employee';
-    const employeeTag = document.createElement('span');
-    employeeTag.className = 'notes-tag';
-    employeeTag.textContent = '勞工注意';
-    const employeeText = document.createElement('p');
-    employeeText.className = 'notes-text';
-    employeeText.textContent = item.employeeNotes;
-    employeeBlock.appendChild(employeeTag);
-    employeeBlock.appendChild(employeeText);
-    return employeeBlock;
-  }
-
-  const employerBlock = buildEmployerBlock();
-  const employeeBlock = buildEmployeeBlock();
-  const blocksInOrder = identity === 'employee'
-    ? [employeeBlock, employerBlock]
-    : [employerBlock, employeeBlock];
-  blocksInOrder.forEach(block => {
-    if (block) card.appendChild(block);
+  const toggleBtn = document.createElement('button');
+  toggleBtn.type = 'button';
+  toggleBtn.className = 'toggle-btn';
+  toggleBtn.setAttribute('aria-expanded', 'false');
+  const toggleIcon = document.createElement('span');
+  toggleIcon.className = 'toggle-icon';
+  toggleIcon.textContent = '▸';
+  toggleIcon.setAttribute('aria-hidden', 'true');
+  const toggleLabel = document.createElement('span');
+  toggleLabel.className = 'toggle-label';
+  toggleLabel.textContent = '查看詳細內容';
+  toggleBtn.appendChild(toggleIcon);
+  toggleBtn.appendChild(toggleLabel);
+  toggleBtn.addEventListener('click', () => {
+    const open = card.classList.toggle('open');
+    toggleLabel.textContent = open ? '收合內容' : '查看詳細內容';
+    toggleBtn.setAttribute('aria-expanded', String(open));
   });
+  card.appendChild(toggleBtn);
 
-  if (item.appliesTo) {
-    const appliesTo = document.createElement('p');
-    appliesTo.className = 'item-applies-to';
-    appliesTo.textContent = `適用對象：${item.appliesTo}`;
-    card.appendChild(appliesTo);
+  const detail = document.createElement('div');
+  detail.className = 'detail';
+
+  const appliesToSection = createDetailSection('適用對象', item.appliesTo);
+  if (appliesToSection) detail.appendChild(appliesToSection);
+
+  const fullSummarySection = createDetailSection('完整背景與變動內容', item.summary);
+  if (fullSummarySection) detail.appendChild(fullSummarySection);
+
+  detail.appendChild(createDatesSection(item, statusDetail));
+
+  const historySection = createHistorySection(item, allItemsById);
+  if (historySection) detail.appendChild(historySection);
+
+  function buildNotesSection(label, text, modifier) {
+    const section = document.createElement('div');
+    section.className = `detail-section notes-block notes-block--${modifier}`;
+    const tag = document.createElement('span');
+    tag.className = 'notes-tag';
+    tag.textContent = label;
+    section.appendChild(tag);
+    const body = document.createElement('p');
+    body.className = 'notes-text';
+    body.textContent = text || '目前無新增企業法定作業義務。';
+    section.appendChild(body);
+    return section;
   }
 
-  if (item.penalty) {
-    const penalty = document.createElement('p');
-    penalty.className = 'item-penalty';
-    penalty.textContent = `罰則：${item.penalty}`;
-    card.appendChild(penalty);
-  }
+  const employerSection = buildNotesSection('雇主／HR 注意事項', item.employerNotes, 'employer');
+  const employeeSection = item.employeeNotes ? buildNotesSection('勞工／一般民眾注意事項', item.employeeNotes, 'employee') : null;
+  const noteSections = identity === 'employee' ? [employeeSection, employerSection] : [employerSection, employeeSection];
+  noteSections.forEach(section => { if (section) detail.appendChild(section); });
 
-  card.appendChild(createSourceLinks(item.sources));
+  const followUpSection = createDetailSection('後續追蹤事項', item.followUp);
+  if (followUpSection) detail.appendChild(followUpSection);
+
+  const penaltySection = createDetailSection('罰則', item.penalty);
+  if (penaltySection) detail.appendChild(penaltySection);
+
+  detail.appendChild(createGroupedSourcesSection(item.sources));
+
+  card.appendChild(detail);
 
   return card;
 }
@@ -846,7 +1024,7 @@ function formatLastRefreshed(dateStr) {
 
 function itemMatchesKeyword(item, category, keyword) {
   if (!keyword) return true;
-  const haystack = [item.title, item.summary, item.employerNotes, item.appliesTo, item.penalty, category && category.name]
+  const haystack = [item.title, item.summary, item.summaryShort, item.employerNotes, item.appliesTo, item.penalty, category && category.name]
     .filter(Boolean)
     .join(' ')
     .toLowerCase();
@@ -1054,6 +1232,65 @@ function renderScenarioSearchResults(container, matches) {
   });
 }
 
+function renderLatestFilters(containerEl, bigGroups, state, onChange) {
+  if (!containerEl) return;
+  containerEl.innerHTML = '';
+
+  function buildRow(labelText, filterKey, options) {
+    const row = document.createElement('div');
+    row.className = 'filter-row';
+    const label = document.createElement('span');
+    label.className = 'filter-row-label';
+    label.textContent = labelText;
+    row.appendChild(label);
+    const group = document.createElement('div');
+    group.className = 'chip-group';
+    options.forEach(opt => {
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'chip';
+      if (state[filterKey] === opt.value) chip.classList.add('active');
+      chip.textContent = opt.label;
+      chip.addEventListener('click', () => {
+        state[filterKey] = opt.value;
+        group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        onChange();
+      });
+      group.appendChild(chip);
+    });
+    row.appendChild(group);
+    return row;
+  }
+
+  containerEl.appendChild(buildRow('內容類型', 'group', [
+    { value: 'all', label: '全部' },
+    ...(bigGroups || []).map(g => ({ value: g.id, label: g.name }))
+  ]));
+  containerEl.appendChild(buildRow('法規狀態', 'stage', [
+    { value: 'all', label: '全部' },
+    { value: 'pending', label: '尚未生效' },
+    { value: 'effective', label: '已生效' },
+    { value: 'watching', label: '持續追蹤' }
+  ]));
+  containerEl.appendChild(buildRow('我的身分', 'role', [
+    { value: 'all', label: '全部' },
+    { value: 'employer', label: '雇主／HR' },
+    { value: 'employee', label: '勞工／一般民眾' }
+  ]));
+}
+
+function itemMatchesFilters(item, category, state) {
+  if (state.group !== 'all' && (!category || category.bigGroupId !== state.group)) return false;
+  const statusDetail = getStatusDetail(item);
+  const isEffectiveLike = statusDetail === 'effective' || statusDetail === 'policy';
+  if (state.stage === 'pending' && isEffectiveLike) return false;
+  if (state.stage === 'effective' && !isEffectiveLike) return false;
+  if (state.stage === 'watching' && getHrImpact(item, statusDetail) !== 'watch') return false;
+  if (state.role === 'employer' && getHrImpact(item, statusDetail) === 'fyi') return false;
+  return true;
+}
+
 function renderOverviewPage(data) {
   renderIdentityBar(document.getElementById('identity-bar'));
   renderHotGuides((window.LAW_GUIDE_DATA || { guides: [] }).guides, data.categories);
@@ -1079,18 +1316,22 @@ function renderOverviewPage(data) {
 
   document.getElementById('last-refreshed').textContent = formatLastRefreshed(data.lastRefreshedAt);
 
+  const allItemsById = new Map(data.items.map(item => [item.id, item]));
   const sortedItems = sortItemsByDateDesc(data.items);
   const container = document.getElementById('latest-body');
   const emptyMessage = document.getElementById('latest-empty-message');
   const paginationContainer = document.getElementById('latest-pagination');
+  const filtersContainer = document.getElementById('latest-filters');
   const searchInput = document.getElementById('search-input');
   let currentPage = 1;
+  const filterState = { group: 'all', stage: 'all', role: 'all' };
 
   function renderList(keyword) {
     container.innerHTML = '';
-    const filtered = sortedItems.filter(item =>
-      itemMatchesKeyword(item, getCategoryById(data.categories, item.categoryId), keyword)
-    );
+    const filtered = sortedItems.filter(item => {
+      const category = getCategoryById(data.categories, item.categoryId);
+      return itemMatchesKeyword(item, category, keyword) && itemMatchesFilters(item, category, filterState);
+    });
 
     const totalPages = Math.max(1, Math.ceil(filtered.length / LATEST_PAGE_SIZE));
     if (currentPage > totalPages) {
@@ -1100,7 +1341,7 @@ function renderOverviewPage(data) {
 
     pageItems.forEach(item => {
       const category = getCategoryById(data.categories, item.categoryId);
-      container.appendChild(createItemCard(item, category, getIdentity()));
+      container.appendChild(createItemCard(item, category, getIdentity(), allItemsById));
     });
 
     if (paginationContainer) {
@@ -1115,12 +1356,17 @@ function renderOverviewPage(data) {
       emptyMessage.textContent = '尚未有資料，請先執行刷新';
       emptyMessage.hidden = false;
     } else if (filtered.length === 0) {
-      emptyMessage.textContent = '沒有符合的搜尋結果，換個關鍵字試試';
+      emptyMessage.textContent = '沒有符合的篩選或搜尋條件，換個條件試試';
       emptyMessage.hidden = false;
     } else {
       emptyMessage.hidden = true;
     }
   }
+
+  renderLatestFilters(filtersContainer, data.bigGroups, filterState, () => {
+    currentPage = 1;
+    renderList(searchInput ? searchInput.value.trim() : '');
+  });
 
   renderList('');
   if (searchInput) {
@@ -1148,6 +1394,7 @@ function renderCategoryPage(data) {
   renderCategoryBreadcrumb(document.getElementById('breadcrumb'), getBigGroupById(data.bigGroups, category.bigGroupId));
   document.getElementById('category-title').textContent = category.name;
 
+  const allItemsById = new Map(data.items.map(it => [it.id, it]));
   const items = sortItemsByDateDesc(data.items.filter(item => item.categoryId === categoryId));
   const container = document.getElementById('category-body');
   const emptyMessage = document.getElementById('category-empty-message');
@@ -1156,7 +1403,7 @@ function renderCategoryPage(data) {
   function renderList(keyword) {
     container.innerHTML = '';
     const filtered = items.filter(item => itemMatchesKeyword(item, category, keyword));
-    filtered.forEach(item => container.appendChild(createItemCard(item, category, getIdentity())));
+    filtered.forEach(item => container.appendChild(createItemCard(item, category, getIdentity(), allItemsById)));
 
     if (items.length === 0) {
       emptyMessage.textContent = '這個分類尚未有資料';
