@@ -1435,7 +1435,7 @@ function renderOverviewPage(data) {
     }
 
     if (sortedItems.length === 0) {
-      emptyMessage.textContent = '尚未有資料，請先執行刷新';
+      emptyMessage.textContent = '目前暫無最新法規異動公告，請參考上方情境速查';
       emptyMessage.hidden = false;
     } else if (filtered.length === 0) {
       const filtersActive = filterState.group !== 'all' || filterState.stage !== 'all' || filterState.role !== 'all';
