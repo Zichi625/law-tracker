@@ -583,7 +583,7 @@ function renderGuidePage(data) {
     return;
   }
 
-  document.title = `多角人才勞動法規指南 - ${guide.title}`;
+  document.title = `職場勞基法情境速查 - ${guide.title}`;
   document.getElementById('guide-title').textContent = guide.title;
 
   renderGuideFlow(guide, {}, 0);
@@ -851,7 +851,11 @@ function createItemCard(item, category, identity = 'all', allItemsById = new Map
     toggleLabel.textContent = open ? '收合內容' : '查看詳細內容';
     toggleBtn.setAttribute('aria-expanded', String(open));
   });
-  card.appendChild(toggleBtn);
+  const footerRow = document.createElement('div');
+  footerRow.className = 'item-footer-row';
+  footerRow.appendChild(toggleBtn);
+  footerRow.appendChild(createCardActions(item));
+  card.appendChild(footerRow);
 
   const detail = document.createElement('div');
   detail.className = 'detail';
@@ -972,7 +976,7 @@ function renderGroupPage(data) {
     return;
   }
 
-  document.title = `多角人才勞動法規指南 - ${bigGroup.name}`;
+  document.title = `職場勞基法情境速查 - ${bigGroup.name}`;
   document.getElementById('group-title').textContent = bigGroup.name;
   document.getElementById('group-description').textContent = bigGroup.description;
 
@@ -1018,17 +1022,95 @@ function renderGroupPage(data) {
   });
 }
 
+// 「法規資料檢核至 2026 年 11 月」：月份跟著每天刷新的資料日期自動變，不寫死
 function formatLastRefreshed(dateStr) {
-  return dateStr ? `最後更新：${dateStr}` : '尚未執行過刷新';
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr || '');
+  if (!match) return '尚未執行過刷新';
+  return `法規資料檢核至 ${match[1]} 年 ${Number(match[2])} 月`;
+}
+
+// 搜尋前統一格式：全形轉半形、去空白、英文小寫，「第10條之1」與「第10-1條」視為同一條
+function normalizeKeywordText(text) {
+  return String(text || '')
+    .replace(/[！-～]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xFEE0))
+    .replace(/\s+/g, '')
+    .replace(/第(\d+)條之(\d+)/g, '第$1-$2條')
+    .toLowerCase();
 }
 
 function itemMatchesKeyword(item, category, keyword) {
   if (!keyword) return true;
-  const haystack = [item.title, item.summary, item.summaryShort, item.employerNotes, item.appliesTo, item.penalty, category && category.name]
-    .filter(Boolean)
-    .join(' ')
-    .toLowerCase();
-  return haystack.includes(keyword.toLowerCase());
+  const haystack = normalizeKeywordText([
+    item.title, item.summary, item.summaryShort, item.employerNotes, item.employeeNotes,
+    item.appliesTo, item.penalty, item.followUp, category && category.name,
+    ...(item.sources || []).map(source => source.label)
+  ].filter(Boolean).join(' '));
+  // 空格分開的多個關鍵字要全部符合，例如「資遣費 罰則」
+  return keyword.split(/[\s　]+/).filter(Boolean)
+    .every(word => haystack.includes(normalizeKeywordText(word)));
+}
+
+const SITE_NAME = '職場勞基法情境速查';
+const SITE_URL = 'https://zichi625.github.io/law-tracker/';
+
+function copyTextToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard.writeText(text);
+  }
+  // 舊瀏覽器或非 https 環境的備用做法
+  return new Promise((resolve, reject) => {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const ok = document.execCommand('copy');
+    textarea.remove();
+    ok ? resolve() : reject(new Error('copy failed'));
+  });
+}
+
+function createCardActions(item) {
+  const title = item.title;
+  const summary = getSummaryShort(item);
+
+  const actions = document.createElement('div');
+  actions.className = 'card-actions';
+
+  const copyBtn = document.createElement('button');
+  copyBtn.type = 'button';
+  copyBtn.className = 'card-action-btn';
+  copyBtn.textContent = '複製重點';
+  let resetTimer = null;
+  copyBtn.addEventListener('click', () => {
+    const text = `【${title}】${summary}（資料來源：${SITE_NAME} ${SITE_URL}）`;
+    copyTextToClipboard(text).then(() => {
+      copyBtn.textContent = '已複製 ✓';
+      copyBtn.classList.add('is-done');
+    }).catch(() => {
+      copyBtn.textContent = '複製失敗，請再試一次';
+    }).finally(() => {
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        copyBtn.textContent = '複製重點';
+        copyBtn.classList.remove('is-done');
+      }, 2000);
+    });
+  });
+
+  const lineLink = document.createElement('a');
+  lineLink.className = 'card-action-btn card-action-btn--line';
+  lineLink.textContent = '分享到 LINE';
+  lineLink.target = '_blank';
+  lineLink.rel = 'noopener noreferrer';
+  lineLink.href = 'https://line.me/R/msg/text/?' +
+    encodeURIComponent(`【${title}】\n${summary}\n\n👉 完整法規速查：${SITE_URL}`);
+
+  actions.appendChild(copyBtn);
+  actions.appendChild(lineLink);
+  return actions;
 }
 
 const LATEST_PAGE_SIZE = 6;
@@ -1356,10 +1438,19 @@ function renderOverviewPage(data) {
       emptyMessage.textContent = '尚未有資料，請先執行刷新';
       emptyMessage.hidden = false;
     } else if (filtered.length === 0) {
-      emptyMessage.textContent = '沒有符合的篩選或搜尋條件，換個條件試試';
+      const filtersActive = filterState.group !== 'all' || filterState.stage !== 'all' || filterState.role !== 'all';
+      emptyMessage.textContent = keyword
+        ? `找不到和「${keyword}」有關的法規卡片 🙏 可以試試換個說法（例如「資遣」改成「解僱」）${filtersActive ? '，或把下方篩選改回「全部」' : ''}，也可以到上方「熱門情境」找找看。`
+        : '沒有符合的篩選條件，換個條件試試';
       emptyMessage.hidden = false;
     } else {
       emptyMessage.hidden = true;
+    }
+
+    const resultCount = document.getElementById('search-result-count');
+    if (resultCount) {
+      resultCount.hidden = !keyword || filtered.length === 0;
+      resultCount.textContent = keyword ? `找到 ${filtered.length} 則和「${keyword}」有關的法規` : '';
     }
   }
 

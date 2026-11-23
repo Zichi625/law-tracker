@@ -1173,3 +1173,173 @@ header h1 {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ===== 2026-11 首頁優化：檢核標籤、搜尋、卡片按鈕、導流卡、頁尾 ===== */
+.tagline-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin: 0 0 20px;
+}
+
+.tagline-row .site-tagline {
+  margin: 0;
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--brand-color);
+  background: var(--brand-color-soft);
+  border: 1px solid #cfd8d5;
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+}
+
+.verified-badge::before {
+  content: "✓";
+  font-weight: 700;
+}
+
+.search-input--keyword {
+  margin-bottom: 8px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 3px var(--brand-color-soft);
+}
+
+.search-result-count {
+  font-size: 13px;
+  color: #6e6e73;
+  margin: 0 0 12px;
+}
+
+.empty-message {
+  line-height: 1.7;
+}
+
+.item-footer-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.card-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.card-action-btn {
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #515154;
+  background: #ffffff;
+  border: 1px solid #d2d2d7;
+  border-radius: 999px;
+  padding: 4px 12px;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.card-action-btn:hover,
+.card-action-btn:focus-visible {
+  background: #f5f5f7;
+  border-color: #a1a1a6;
+  color: #1d1d1f;
+}
+
+.card-action-btn--line {
+  color: #3f6b4f;
+  border-color: #c4dccb;
+}
+
+.card-action-btn--line:hover,
+.card-action-btn--line:focus-visible {
+  background: #eef6f0;
+  border-color: #8fbf9d;
+  color: #2f5a3e;
+}
+
+.card-action-btn.is-done {
+  color: var(--status-effective);
+  border-color: #b9d3b5;
+  background: var(--status-effective-soft);
+}
+
+.cta-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  border: 1px dashed #cfd8d5;
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 0 0 20px;
+  background: #fafbfa;
+}
+
+.cta-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #515154;
+  flex: 1 1 260px;
+}
+
+.cta-eyebrow {
+  display: block;
+  font-weight: 600;
+  color: #1d1d1f;
+}
+
+.cta-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-color);
+  text-decoration: none;
+  border: 1px solid #cfd8d5;
+  border-radius: 999px;
+  padding: 5px 14px;
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+.cta-link:hover,
+.cta-link:focus-visible {
+  background: var(--brand-color-soft);
+}
+
+.site-footer {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e5e7;
+}
+
+.disclaimer {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #6e6e73;
+}
+
+@media print {
+  .card-actions,
+  .cta-card {
+    display: none;
+  }
+}
